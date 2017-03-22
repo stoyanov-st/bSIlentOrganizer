@@ -19,4 +19,6 @@
     <string name="bsilentlogo">bSilentLogo</string>
     <string name="username">username</string>
     <string name="password">password</string>
+    <string name="login">LOGIN</string>
+    <string name="no_account">Don\'t have an account?</string>
 </resources>

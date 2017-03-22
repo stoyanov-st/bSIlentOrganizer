@@ -22,7 +22,7 @@
         app:srcCompat="@drawable/bsilentlogonobg" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/userNameInputBox"
         android:layout_width="280dp"
         android:layout_height="70dp"
         android:layout_centerHorizontal="true"
@@ -37,14 +37,16 @@
         android:textAlignment="center"
         android:textColor="@color/colorWhite"
         android:textColorHint="@color/colorWhite"
-        android:textSize="24sp" />
+        android:textColorLink="@color/colorWhite"
+        android:textSize="24sp"
+        android:textCursorDrawable="@null"/>
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/passwordInputBox"
         android:layout_width="280dp"
         android:layout_height="70dp"
         android:layout_alignParentBottom="false"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/userNameInputBox"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
@@ -57,6 +59,33 @@
         android:textAlignment="center"
         android:textColor="@color/colorWhite"
         android:textColorHint="@color/colorWhite"
-        android:textSize="24sp" />
+        android:textColorLink="@color/colorWhite"
+        android:textSize="24sp"
+        android:textCursorDrawable="@null"/>
+
+    <Button
+        android:id="@+id/loginButton"
+        android:background="@drawable/loginbutton"
+        android:layout_width="260dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorBlack"
+        android:textSize="26sp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/login"
+        android:layout_below="@+id/passwordInputBox"
+        android:layout_alignStart="@+id/passwordInputBox" />
+
+    <TextView
+        android:id="@+id/dontHaveAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loginButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="@string/no_account"
+        android:textSize="16sp"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="sans-serif-light"/>
 
 </RelativeLayout>
