@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BSIlentOrganizer</string>
+    <string name="app_name">BSilent Organizer</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -14,4 +14,9 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="button">Button</string>
+    <string name="background_image">Background Image</string>
+    <string name="bsilentlogo">bSilentLogo</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
 </resources>
