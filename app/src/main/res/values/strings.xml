@@ -16,9 +16,11 @@
     </string>
     <string name="button">Button</string>
     <string name="background_image">Background Image</string>
-    <string name="bsilentlogo">bSilentLogo</string>
+    <string name="bsilent_logo">bSilentLogo</string>
     <string name="username">username</string>
     <string name="password">password</string>
     <string name="login">LOGIN</string>
     <string name="no_account">Don\'t have an account?</string>
+    <string name="register_free">Register. \n It\'s free!</string>
+    <string name="register">REGISTER</string>
 </resources>

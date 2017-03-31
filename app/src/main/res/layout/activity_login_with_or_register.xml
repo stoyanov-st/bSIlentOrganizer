@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background"
+    tools:context="bg.uni_ruse.stoyanov.bsilentorganizer.loginWithOrRegister">
+
+
+    <TextView
+        android:id="@+id/register_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/register_free"
+        android:textSize="55sp"
+        android:textColor="@color/colorWhite"
+        android:layout_marginTop="89dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+    <Button
+        android:id="@+id/loginButton"
+        android:background="@drawable/login_button"
+        android:layout_width="260dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="52dp"
+        android:textColor="@color/colorBlack"
+        android:textSize="26sp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/register"
+        android:layout_below="@+id/register_label"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
