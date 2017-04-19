@@ -67,16 +67,17 @@
 
     <Button
         android:id="@+id/loginButton"
-        android:background="@drawable/login_button"
         android:layout_width="260dp"
         android:layout_height="70dp"
+        android:layout_alignStart="@+id/passwordInputBox"
+        android:layout_below="@+id/passwordInputBox"
         android:layout_marginTop="20dp"
-        android:textColor="@color/colorBlack"
-        android:textSize="26sp"
+        android:background="@drawable/login_button"
+        android:elevation="10dp"
         android:fontFamily="sans-serif-light"
         android:text="@string/login"
-        android:layout_below="@+id/passwordInputBox"
-        android:layout_alignStart="@+id/passwordInputBox" />
+        android:textColor="@color/colorBlack"
+        android:textSize="26sp" />
 
     <TextView
         android:id="@+id/dontHaveAccount"
