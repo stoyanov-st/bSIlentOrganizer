@@ -14,7 +14,7 @@
         android:text="@string/register_free"
         android:textSize="55sp"
         android:textColor="@color/colorWhite"
-        android:layout_marginTop="89dp"
+        android:layout_marginTop="90dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
     <Button
