@@ -35,7 +35,7 @@
         android:ems="10"
         android:fontFamily="sans-serif-condensed"
         android:hint="@string/username"
-        android:inputType="text"
+        android:inputType="textNoSuggestions"
         android:textAlignment="center"
         android:textColor="@color/colorWhite"
         android:textColorHint="@color/colorWhite"
