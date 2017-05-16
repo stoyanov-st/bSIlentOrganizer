@@ -4,21 +4,18 @@
 
     <dimen name="button_corner_radius">5dp</dimen>
     <dimen name="button_stroke_width">5dp</dimen>
-    <dimen name="button_width">260dp</dimen>
+    <dimen name="button_width">300dp</dimen>
     <dimen name="button_height">70dp</dimen>
     <dimen name="button_margin_top">70dp</dimen>
-    <dimen name="button_text_size">26sp</dimen>
 
-    <dimen name="logo_width">200dp</dimen>
-    <dimen name="logo_height">205dp</dimen>
+    <dimen name="logo_width">250dp</dimen>
+    <dimen name="logo_height">255dp</dimen>
     <dimen name="logo_margin_top">30dp</dimen>
 
     <dimen name="input_box_margin_top">20dp</dimen>
-    <dimen name="input_box_width">280dp</dimen>
+    <dimen name="input_box_width">300dp</dimen>
     <dimen name="input_box_height">70dp</dimen>
-    <dimen name="input_box_side_margin">50dp</dimen>
-    <dimen name="input_box_text_size">24sp</dimen>
 
     <dimen name="dont_have_acc_label_margin_top">10dp</dimen>
-    <dimen name="dont_have_acc_label_text_size">16sp</dimen>
+
 </resources>

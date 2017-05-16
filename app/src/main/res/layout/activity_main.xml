@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/login_background"
@@ -10,10 +11,11 @@
     android:weightSum="1"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:clickable="true"
     tools:context="bg.uni_ruse.stoyanov.bsilentorganizer.MainActivity">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/logoImage"
         android:layout_width="@dimen/logo_width"
         android:layout_height="@dimen/logo_height"
         android:layout_alignParentTop="true"
@@ -25,12 +27,14 @@
 
     <EditText
         android:id="@+id/userNameInputBox"
-        android:layout_width="280dp"
-        android:layout_height="70dp"
+        android:layout_width="@dimen/input_box_width"
+        android:layout_height="@dimen/input_box_height"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
+        android:layout_below="@id/logoImage"
+        android:layout_marginTop="@dimen/input_box_margin_top"
+        android:layout_marginLeft="@dimen/input_box_side_margin"
+        android:layout_marginRight="@dimen/input_box_side_margin"
         android:background="@drawable/input_box"
         android:ems="10"
         android:fontFamily="sans-serif-condensed"
@@ -40,19 +44,19 @@
         android:textColor="@color/colorWhite"
         android:textColorHint="@color/colorWhite"
         android:textColorLink="@color/colorWhite"
-        android:textSize="24sp"
+        android:textSize="@dimen/input_box_text_size"
         android:textCursorDrawable="@null"/>
 
     <EditText
         android:id="@+id/passwordInputBox"
-        android:layout_width="280dp"
-        android:layout_height="70dp"
+        android:layout_width="@dimen/input_box_width"
+        android:layout_height="@dimen/input_box_height"
         android:layout_alignParentBottom="false"
         android:layout_below="@+id/userNameInputBox"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="280dp"
+        android:layout_marginLeft="@dimen/input_box_side_margin"
+        android:layout_marginRight="@dimen/input_box_side_margin"
+        android:layout_marginTop="@dimen/input_box_margin_top"
         android:background="@drawable/input_box"
         android:ems="10"
         android:fontFamily="sans-serif-condensed"
@@ -62,22 +66,22 @@
         android:textColor="@color/colorWhite"
         android:textColorHint="@color/colorWhite"
         android:textColorLink="@color/colorWhite"
-        android:textSize="24sp"
+        android:textSize="@dimen/input_box_text_size"
         android:textCursorDrawable="@null"/>
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="260dp"
-        android:layout_height="70dp"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
         android:layout_alignStart="@+id/passwordInputBox"
         android:layout_below="@+id/passwordInputBox"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/button_margin_top"
         android:background="@drawable/login_button_states"
         android:elevation="10dp"
         android:fontFamily="sans-serif-light"
         android:text="@string/login"
         android:textColor="@color/colorBlack"
-        android:textSize="26sp" />
+        android:textSize="@dimen/button_text_size" />
 
     <TextView
         android:id="@+id/dontHaveAccount"
@@ -85,11 +89,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/loginButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/dont_have_acc_label_margin_top"
         android:text="@string/no_account"
-        android:textSize="16sp"
+        android:textSize="@dimen/dont_have_acc_label_text_size"
         android:textColor="@color/colorWhite"
         android:fontFamily="sans-serif-light"
         android:onClick="loginWithOrRegister"/>
+
 
 </RelativeLayout>
