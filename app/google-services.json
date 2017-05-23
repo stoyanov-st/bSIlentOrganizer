@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "143639939405",
+    "project_id": "bsilentorganizer"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143639939405:android:fa472c249add1c98",
+        "android_client_info": {
+          "package_name": "bg.uni_ruse.stoyanov.bsilentorganizer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "143639939405-vjmaiujp6objla0b8mmaqrepehcfa3jb.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "143639939405-83j2r7gufbggv62eqo2mn5b8ivpavb71.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "bg.uni_ruse.stoyanov.bsilentorganizer",
+            "certificate_hash": "0e555ff22b16a96c6b6b7c7f5789555f234fd909"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0GRCblM_7fX8noVYulNCqWS5Se3lIlps"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

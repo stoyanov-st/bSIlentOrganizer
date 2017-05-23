@@ -25,7 +25,7 @@
         android:foregroundGravity="center_horizontal|center"
         app:srcCompat="@drawable/b_silent_logo_no_bg" />
 
-    <EditText
+    <!-- <EditText
         android:id="@+id/userNameInputBox"
         android:layout_width="@dimen/input_box_width"
         android:layout_height="@dimen/input_box_height"
@@ -95,14 +95,23 @@
         android:textColor="@color/colorWhite"
         android:fontFamily="sans-serif-light"
         android:onClick="loginWithOrRegister"/>
+    -->
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logoImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/login_google_margin_top" />
+
 
     <ImageView
         android:id="@+id/or_line"
         android:layout_width="@dimen/button_width"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/passwordInputBox"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="@dimen/or_line_margin_top"
+        android:layout_below="@+id/sign_in_button"
         app:srcCompat="@drawable/or_line"
         android:contentDescription="@string/or_line"/>
 
