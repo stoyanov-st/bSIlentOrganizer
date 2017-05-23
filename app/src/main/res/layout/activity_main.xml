@@ -21,9 +21,9 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/logo_margin_top"
-        android:contentDescription="@string/bsilent_logo"
+        android:contentDescription="@string/b_silent_logo"
         android:foregroundGravity="center_horizontal|center"
-        app:srcCompat="@drawable/bsilent_logo_no_bg" />
+        app:srcCompat="@drawable/b_silent_logo_no_bg" />
 
     <EditText
         android:id="@+id/userNameInputBox"
@@ -95,6 +95,16 @@
         android:textColor="@color/colorWhite"
         android:fontFamily="sans-serif-light"
         android:onClick="loginWithOrRegister"/>
+
+    <ImageView
+        android:id="@+id/or_line"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/passwordInputBox"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        app:srcCompat="@drawable/or_line"
+        android:contentDescription="@string/or_line"/>
 
 
 </RelativeLayout>

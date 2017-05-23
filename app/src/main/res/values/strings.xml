@@ -16,7 +16,7 @@
     </string>
     <string name="button">Button</string>
     <string name="background_image">Background Image</string>
-    <string name="bsilent_logo">bSilentLogo</string>
+    <string name="b_silent_logo">bSilentLogo</string>
     <string name="username">username</string>
     <string name="password">password</string>
     <string name="login">LOGIN</string>
@@ -24,4 +24,5 @@
     <string name="register_free">Register. \n It\'s free!</string>
     <string name="register">REGISTER</string>
     <string name="confirm_password">comfirm password</string>
+    <string name="or_line">OrLine</string>
 </resources>
