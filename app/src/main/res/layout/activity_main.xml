@@ -25,27 +25,7 @@
         android:foregroundGravity="center_horizontal|center"
         app:srcCompat="@drawable/b_silent_logo_no_bg" />
 
-    <!-- <EditText
-        android:id="@+id/userNameInputBox"
-        android:layout_width="@dimen/input_box_width"
-        android:layout_height="@dimen/input_box_height"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_below="@id/logoImage"
-        android:layout_marginTop="@dimen/input_box_margin_top"
-        android:layout_marginLeft="@dimen/input_box_side_margin"
-        android:layout_marginRight="@dimen/input_box_side_margin"
-        android:background="@drawable/input_box"
-        android:ems="10"
-        android:fontFamily="sans-serif-condensed"
-        android:hint="@string/username"
-        android:inputType="textNoSuggestions"
-        android:textAlignment="center"
-        android:textColor="@color/colorWhite"
-        android:textColorHint="@color/colorWhite"
-        android:textColorLink="@color/colorWhite"
-        android:textSize="@dimen/input_box_text_size"
-        android:textCursorDrawable="@null"/>
+    <!--
 
     <EditText
         android:id="@+id/passwordInputBox"
@@ -69,19 +49,7 @@
         android:textSize="@dimen/input_box_text_size"
         android:textCursorDrawable="@null"/>
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="@dimen/button_width"
-        android:layout_height="@dimen/button_height"
-        android:layout_alignStart="@+id/passwordInputBox"
-        android:layout_below="@+id/passwordInputBox"
-        android:layout_marginTop="@dimen/button_margin_top"
-        android:background="@drawable/login_button_states"
-        android:elevation="10dp"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/login"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/button_text_size" />
+
 
     <TextView
         android:id="@+id/dontHaveAccount"
@@ -105,15 +73,58 @@
         android:layout_marginTop="@dimen/login_google_margin_top" />
 
 
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/sign_in_button"
+        android:layout_below="@+id/sign_in_button"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/login_fb_margin_top" />
+
     <ImageView
         android:id="@+id/or_line"
         android:layout_width="@dimen/button_width"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/or_line_margin_top"
-        android:layout_below="@+id/sign_in_button"
+        android:layout_below="@+id/login_button"
         app:srcCompat="@drawable/or_line"
         android:contentDescription="@string/or_line"/>
 
+    <EditText
+        android:id="@+id/emailInputBox"
+        android:layout_width="@dimen/input_box_width"
+        android:layout_height="@dimen/input_box_height"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_below="@id/or_line"
+        android:layout_marginTop="@dimen/input_box_margin_top"
+        android:layout_marginLeft="@dimen/input_box_side_margin"
+        android:layout_marginRight="@dimen/input_box_side_margin"
+        android:background="@drawable/input_box"
+        android:ems="10"
+        android:fontFamily="sans-serif-condensed"
+        android:hint="@string/prompt_email"
+        android:inputType="textNoSuggestions"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorWhite"
+        android:textColorLink="@color/colorWhite"
+        android:textSize="@dimen/input_box_text_size"
+        android:textCursorDrawable="@null"/>
 
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="@dimen/button_margin_top"
+        android:background="@drawable/login_button_states"
+        android:elevation="10dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/next"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/button_text_size"
+        android:layout_below="@+id/emailInputBox"
+        android:layout_alignStart="@+id/emailInputBox" />
 </RelativeLayout>
