@@ -21,6 +21,7 @@
 
     <dimen name="login_google_margin_top">20dp</dimen>
     <dimen name="login_fb_margin_top">20dp</dimen>
+    <dimen name="login_fb_padding">12dp</dimen>
     <dimen name="or_line_margin_top">25dp</dimen>
 
     <dimen name="dont_have_acc_label_margin_top">10dp</dimen>
