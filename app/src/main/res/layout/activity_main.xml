@@ -24,9 +24,7 @@
         android:contentDescription="@string/b_silent_logo"
         android:foregroundGravity="center_horizontal|center"
         app:srcCompat="@drawable/b_silent_logo_no_bg" />
-
-    <!--
-
+<!--
     <EditText
         android:id="@+id/passwordInputBox"
         android:layout_width="@dimen/input_box_width"
@@ -63,7 +61,7 @@
         android:textColor="@color/colorWhite"
         android:fontFamily="sans-serif-light"
         android:onClick="loginWithOrRegister"/>
-    -->
+-->
     <com.google.android.gms.common.SignInButton
         android:id="@+id/google_sign_in_button"
         android:layout_width="@dimen/button_width"
@@ -130,3 +128,4 @@
         android:layout_below="@+id/emailInputBox"
         android:layout_alignStart="@+id/emailInputBox" />
 </RelativeLayout>
+
