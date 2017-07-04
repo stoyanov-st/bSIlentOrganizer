@@ -26,7 +26,9 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 
+import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
@@ -57,7 +59,9 @@ public class MainActivity extends AppCompatActivity implements
             public void onSuccess(final LoginResult loginResult) {
                 //TODO: Use the Profile class to get information about the current user.
                 Profile profile = Profile.getCurrentProfile();
-                Toast.makeText(getApplicationContext(), "Logging in...", Toast.LENGTH_SHORT).show();
+
+                //Toast.makeText(getApplicationContext(), "Logging in..." , Toast.LENGTH_SHORT).show();
+                fbLoginToHome(profile);
             }
 
             @Override
@@ -71,6 +75,18 @@ public class MainActivity extends AppCompatActivity implements
 
             }
         });
+    }
+
+    private void fbLoginToHome(Profile profile) {
+        Intent homeActivity = new Intent(this, HomeActivity.class);
+        homeActivity.putExtra("profile", profile.getName());
+        startActivity(homeActivity);
+    }
+
+    private void googleLoginToHome(GoogleSignInAccount profile) {
+        Intent homeActivity = new Intent(this, HomeActivity.class);
+        homeActivity.putExtra("profile", profile.getDisplayName());
+        startActivity(homeActivity);
     }
 
     private void signInWithGoogle() {
@@ -99,13 +115,13 @@ public class MainActivity extends AppCompatActivity implements
     private void signInWithFB() {
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
     }
-/*  Start login activity
-    public void loginWithOrRegister(View view) {
+  //Start login activity
+    /*public void loginWithOrRegister(View view) {
         Intent intent = new Intent(this, loginWithOrRegister.class);
         startActivity(intent);
                 
-    }*/
-
+    }
+*/
     //Hide soft keyboard when tapped outside of editViеws
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -130,6 +146,22 @@ public class MainActivity extends AppCompatActivity implements
         super.onStop();
         if (mGoogleApiClient != null) {
             mGoogleApiClient.disconnect();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.disconnect();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
         }
     }
 
@@ -163,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements
             if (result.isSuccess()) {
                 final GoogleApiClient client = mGoogleApiClient;
                 GoogleSignInAccount acct = result.getSignInAccount();
+                googleLoginToHome(acct);
                 Context context = getApplicationContext();
                 CharSequence text = "Hello toast!";
                 int duration = Toast.LENGTH_SHORT;
