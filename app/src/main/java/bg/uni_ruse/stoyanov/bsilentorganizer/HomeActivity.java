@@ -11,13 +11,16 @@ public class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         String text = "";
+        String text1 = "";
         if (getIntent().getExtras() != null) {
-           text = getIntent().getParcelableExtra("profile").toString();
+            text = getIntent().getStringExtra("profileName");
+            text1 = getIntent().getStringExtra("profilePicture");
 
         }
-
         EditText editText = (EditText) findViewById(R.id.testBox);
         editText.setText(text);
+        EditText editText1 = (EditText) findViewById(R.id.testBox1);
+        editText1.setText(text1);
     }
 
 }

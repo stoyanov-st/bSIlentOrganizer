@@ -15,4 +15,11 @@
         android:text="Name"
         tools:layout_editor_absoluteX="72dp"
         tools:layout_editor_absoluteY="128dp" />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/testBox1"
+        android:text="test"
+        tools:layout_editor_absoluteY="40dp"
+        tools:layout_editor_absoluteX="90dp" />
 </android.support.constraint.ConstraintLayout>

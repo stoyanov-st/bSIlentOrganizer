@@ -2,12 +2,15 @@ package bg.uni_ruse.stoyanov.bsilentorganizer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -24,11 +27,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 
 
-import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.concurrent.Callable;
 
 public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
@@ -38,19 +42,25 @@ public class MainActivity extends AppCompatActivity implements
     private final int RC_SIGN_IN = 9001;
     private CallbackManager mFacebookCallbackManager;
     private String TAG = MainActivity.class.getCanonicalName();
-
+    private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
 
-        // Set the dimensions of the sign-in button.
+        //On Click listener for register button
+        Button registerButton = (Button) findViewById(R.id.nextButton);
+        registerButton.setOnClickListener(this);
+
+        // Set the dimensions of the Google sign-in button.
         SignInButton mGoogleSignInButton = (SignInButton) findViewById(R.id.google_sign_in_button);
         mGoogleSignInButton.setSize(SignInButton.SIZE_WIDE);
         mGoogleSignInButton.setColorScheme(SignInButton.COLOR_AUTO);
         mGoogleSignInButton.setOnClickListener(this);
 
+
+        //Facebook Login
         mFacebookCallbackManager = CallbackManager.Factory.create();
         LoginButton mFacebookLoginButton = (LoginButton) findViewById(R.id.fb_login_button);
         mFacebookLoginButton.setOnClickListener(this);
@@ -59,34 +69,38 @@ public class MainActivity extends AppCompatActivity implements
             public void onSuccess(final LoginResult loginResult) {
                 //TODO: Use the Profile class to get information about the current user.
                 Profile profile = Profile.getCurrentProfile();
-
+                handleSignInResult(new Callable<Void>() {
+                   @Override
+                    public Void call() throws Exception {
+                       LoginManager.getInstance().logOut();
+                       return null;
+                   }
+                });
                 //Toast.makeText(getApplicationContext(), "Logging in..." , Toast.LENGTH_SHORT).show();
-                fbLoginToHome(profile);
+
             }
 
             @Override
             public void onCancel() {
-
+                handleSignInResult(null);
             }
 
             @Override
             public void onError(FacebookException error) {
                 Log.d(TAG, error.getMessage());
-
+                handleSignInResult(null);
             }
         });
     }
 
-    private void fbLoginToHome(Profile profile) {
-        Intent homeActivity = new Intent(this, HomeActivity.class);
-        homeActivity.putExtra("profile", profile.getName());
-        startActivity(homeActivity);
-    }
-
-    private void googleLoginToHome(GoogleSignInAccount profile) {
-        Intent homeActivity = new Intent(this, HomeActivity.class);
-        homeActivity.putExtra("profile", profile.getDisplayName());
-        startActivity(homeActivity);
+    private void handleSignInResult(Callable<Void> logout) {
+        if (logout == null){
+            Toast.makeText(getApplicationContext(), "Login Error", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(getApplicationContext(),"Logged in", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, HomeActivity.class));
+        }
     }
 
     private void signInWithGoogle() {
@@ -115,13 +129,7 @@ public class MainActivity extends AppCompatActivity implements
     private void signInWithFB() {
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
     }
-  //Start login activity
-    /*public void loginWithOrRegister(View view) {
-        Intent intent = new Intent(this, loginWithOrRegister.class);
-        startActivity(intent);
-                
-    }
-*/
+
     //Hide soft keyboard when tapped outside of editViеws
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -181,6 +189,9 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.fb_login_button:
                 signInWithFB();
                 break;
+            case R.id.nextButton:
+                registerNewUser();
+                break;
         }
     }
 
@@ -195,22 +206,42 @@ public class MainActivity extends AppCompatActivity implements
             if (result.isSuccess()) {
                 final GoogleApiClient client = mGoogleApiClient;
                 GoogleSignInAccount acct = result.getSignInAccount();
-                googleLoginToHome(acct);
-                Context context = getApplicationContext();
-                CharSequence text = "Hello toast!";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                handleSignInResult(new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        if (client != null) {
+                            Auth.GoogleSignInApi.signOut(client).setResultCallback(
+                                    new ResultCallback<Status>() {
+                                        @Override
+                                        public void onResult(@NonNull Status status) {
+                                            Log.d(MainActivity.class.getCanonicalName(), status.getStatusMessage());
+                                        }
+                                    }
+                            );
+                        }
+                        return null;
+                    }
+                });
             }
             else {
-                Context context = getApplicationContext();
-                CharSequence text = "Bye toast!";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                handleSignInResult(null);
             }
         } else mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void registerNewUser() {
+        EditText emailInput = (EditText) findViewById(R.id.emailInputBox);
+        String email = emailInput.getText().toString().trim();
+        if (email.matches(emailPattern)) {
+            loginWithOrRegister(email);
+        }
+        else Toast.makeText(getApplicationContext(), "Invalied email", Toast.LENGTH_SHORT).show();
+    }
+
+    //Start login activity
+    private void loginWithOrRegister(String extra) {
+        Intent intent = new Intent(this, loginWithOrRegister.class);
+        intent.putExtra("email", extra);
+        startActivity(intent);
     }
 }
