@@ -233,15 +233,10 @@ public class MainActivity extends AppCompatActivity implements
         EditText emailInput = (EditText) findViewById(R.id.emailInputBox);
         String email = emailInput.getText().toString().trim();
         if (email.matches(emailPattern)) {
-            loginWithOrRegister(email);
+            Intent intent = new Intent(this, RegisterActivity.class);
+            intent.putExtra("email", email);
+            startActivity(intent);
         }
         else Toast.makeText(getApplicationContext(), "Invalied email", Toast.LENGTH_SHORT).show();
-    }
-
-    //Start login activity
-    private void loginWithOrRegister(String extra) {
-        Intent intent = new Intent(this, loginWithOrRegister.class);
-        intent.putExtra("email", extra);
-        startActivity(intent);
     }
 }
