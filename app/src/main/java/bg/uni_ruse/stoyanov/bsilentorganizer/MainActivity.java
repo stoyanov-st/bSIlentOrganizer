@@ -2,6 +2,8 @@ package bg.uni_ruse.stoyanov.bsilentorganizer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,12 +45,15 @@ public class MainActivity extends AppCompatActivity implements
     private final int RC_SIGN_IN = 9001;
     private CallbackManager mFacebookCallbackManager;
     private String TAG = MainActivity.class.getCanonicalName();
-    private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
+    private SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        checkIfUserIsLoggedIn();
 
         //On Click listener for register button
         Button registerButton = (Button) findViewById(R.id.nextButton);
@@ -70,6 +75,12 @@ public class MainActivity extends AppCompatActivity implements
             public void onSuccess(final LoginResult loginResult) {
                 //TODO: Use the Profile class to get information about the current user.
                 Profile profile = Profile.getCurrentProfile();
+                storeUserId(profile.getId());
+                new User(profile.getId(),
+                        profile.getFirstName(),
+                        profile.getLastName(),
+                        profile.getName(),
+                        profile.getProfilePictureUri(50,50).toString());
                 handleSignInResult(new Callable<Void>() {
                    @Override
                     public Void call() throws Exception {
@@ -77,8 +88,6 @@ public class MainActivity extends AppCompatActivity implements
                        return null;
                    }
                 });
-                //Toast.makeText(getApplicationContext(), "Logging in..." , Toast.LENGTH_SHORT).show();
-
             }
 
             @Override
@@ -94,6 +103,31 @@ public class MainActivity extends AppCompatActivity implements
         });
     }
 
+    /*
+    * Checks if the user is already logged
+    * if so redirects to home activity
+    */
+    private void checkIfUserIsLoggedIn() {
+
+
+        String userId = preferences.getString("userId", null);
+
+        if (userId != null) {
+            handleSignInResult(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    return null;
+                }
+            });
+        }
+
+    }
+
+
+    /*
+    * Handling sign in results
+    * Redirects to home activity
+    */
     private void handleSignInResult(Callable<Void> logout) {
         if (logout == null){
             Toast.makeText(getApplicationContext(), "Login Error", Toast.LENGTH_SHORT).show();
@@ -207,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements
             if (result.isSuccess()) {
                 final GoogleApiClient client = mGoogleApiClient;
                 GoogleSignInAccount acct = result.getSignInAccount();
+                storeUserId(acct.getId());
                 handleSignInResult(new Callable<Void>() {
                     @Override
                     public Void call() throws Exception {
@@ -230,12 +265,26 @@ public class MainActivity extends AppCompatActivity implements
         } else mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
+
+    /*
+    * Stores userId for auto login on next application start
+    * */
+    private void storeUserId(String userId) {
+        preferences.edit().putString("userId", userId).apply();
+    }
+
+
+    /*
+    * Validating email
+    * and redirect to registration activity
+    * */
     private void registerNewUser() {
         EditText emailInput = (EditText) findViewById(R.id.emailInputBox);
         String email = emailInput.getText().toString().trim();
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
         if (email.matches(emailPattern)) {
             startActivity(new Intent(this, RegisterActivity.class).putExtra("email", email));
         }
-        else Toast.makeText(getApplicationContext(), "Invalied email", Toast.LENGTH_SHORT).show();
+        else Toast.makeText(getApplicationContext(), "Invalid email", Toast.LENGTH_SHORT).show();
     }
 }

@@ -85,7 +85,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
             if (password.matches(passwordPattern)) {
                 if (password.equals(passwordConfirm))  {
-                    new UserDTO(email, username, password, initToken);
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "/register",
                             new Response.Listener<String>() {
                                 @Override
