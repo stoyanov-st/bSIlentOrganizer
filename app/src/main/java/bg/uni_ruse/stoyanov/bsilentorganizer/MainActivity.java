@@ -33,6 +33,8 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
 
+import org.greenrobot.greendao.database.Database;
+
 import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
@@ -45,7 +47,8 @@ public class MainActivity extends AppCompatActivity implements
     private final int RC_SIGN_IN = 9001;
     private CallbackManager mFacebookCallbackManager;
     private String TAG = MainActivity.class.getCanonicalName();
-    private SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+    private static DaoSession daoSession;
+    private UserDao userDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements
 
         checkIfUserIsLoggedIn();
 
+        initDB();
         //On Click listener for register button
         Button registerButton = (Button) findViewById(R.id.nextButton);
         registerButton.setOnClickListener(this);
@@ -76,11 +80,12 @@ public class MainActivity extends AppCompatActivity implements
                 //TODO: Use the Profile class to get information about the current user.
                 Profile profile = Profile.getCurrentProfile();
                 storeUserId(profile.getId());
-                new User(profile.getId(),
-                        profile.getFirstName(),
+                userDao = getDaoSession().getUserDao();
+                userDao.insert(
+                new User(profile.getFirstName(),
                         profile.getLastName(),
                         profile.getName(),
-                        profile.getProfilePictureUri(50,50).toString());
+                        profile.getProfilePictureUri(50,50).toString()));
                 handleSignInResult(new Callable<Void>() {
                    @Override
                     public Void call() throws Exception {
@@ -108,8 +113,7 @@ public class MainActivity extends AppCompatActivity implements
     * if so redirects to home activity
     */
     private void checkIfUserIsLoggedIn() {
-
-
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         String userId = preferences.getString("userId", null);
 
         if (userId != null) {
@@ -119,10 +123,9 @@ public class MainActivity extends AppCompatActivity implements
                     return null;
                 }
             });
+            finish();
         }
-
     }
-
 
     /*
     * Handling sign in results
@@ -242,6 +245,12 @@ public class MainActivity extends AppCompatActivity implements
                 final GoogleApiClient client = mGoogleApiClient;
                 GoogleSignInAccount acct = result.getSignInAccount();
                 storeUserId(acct.getId());
+                userDao = getDaoSession().getUserDao();
+                userDao.insert(
+                new User(acct.getGivenName(),
+                        acct.getFamilyName(),
+                        acct.getDisplayName(),
+                        acct.getPhotoUrl().toString()));
                 handleSignInResult(new Callable<Void>() {
                     @Override
                     public Void call() throws Exception {
@@ -270,6 +279,7 @@ public class MainActivity extends AppCompatActivity implements
     * Stores userId for auto login on next application start
     * */
     private void storeUserId(String userId) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         preferences.edit().putString("userId", userId).apply();
     }
 
@@ -286,5 +296,19 @@ public class MainActivity extends AppCompatActivity implements
             startActivity(new Intent(this, RegisterActivity.class).putExtra("email", email));
         }
         else Toast.makeText(getApplicationContext(), "Invalid email", Toast.LENGTH_SHORT).show();
+    }
+
+    private void initDB() {
+        /*
+        * Local DB initialization
+        * */
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this , "users");
+        Database db = helper.getWritableDb();
+        daoSession = new DaoMaster(db).newSession();
+
+    }
+
+    public static DaoSession getDaoSession() {
+        return daoSession;
     }
 }

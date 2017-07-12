@@ -15,33 +15,28 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
+import org.greenrobot.greendao.database.Database;
+
+
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.SecretKeySpec;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
 
     private String email = "";
     private String initToken = "";
     RequestQueue queue;
-
+    UserDao userDao;
     final String url = "http://10.0.2.2:3000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+
 
         queue = Volley.newRequestQueue(this);
         email = getEmail();
@@ -90,6 +85,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                 @Override
                                 public void onResponse(String response) {
                                     Log.i(getLocalClassName(), response);
+                                    userDao = MainActivity.getDaoSession().getUserDao();
+                                    userDao.insert(new User());
                                     startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                 }
                             }, new Response.ErrorListener() {
@@ -124,5 +121,4 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private String passEncrypt(String pass) {
            return new String(Base64.encode(pass.getBytes(), Base64.DEFAULT));
     }
-
 }
