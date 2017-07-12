@@ -21,12 +21,11 @@ public class HomeActivity extends Activity {
         qb.where(UserDao.Properties.FullName.isNotNull()).limit(1);
         List<User> users = qb.list();
         String text = users.get(0).getFullName();
-        String text1 = "";
+
 
         EditText editText = (EditText) findViewById(R.id.testBox);
         editText.setText(text);
-        EditText editText1 = (EditText) findViewById(R.id.testBox1);
-        editText1.setText(text1);
+
     }
 
 

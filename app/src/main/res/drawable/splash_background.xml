@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@color/colorBackground"/>
+
+    <item
+        android:layout_height="50dp"
+        android:layout_width="50dp">
+        <bitmap android:gravity="center"
+            android:src="@drawable/b_silent_logo" />
+    </item>
+</layer-list>
