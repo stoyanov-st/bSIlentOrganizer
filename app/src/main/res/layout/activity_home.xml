@@ -23,5 +23,23 @@
         android:layout_below="@+id/testBox"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="@string/button" />
+        android:text="Silent Mode" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="wrap_content"
+        android:text="Switch"
+        android:layout_below="@+id/button2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp" />
+
+    <Switch
+        android:id="@+id/switch2"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/switch1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="61dp"
+        android:text="Use Vibration Mode" />
 </RelativeLayout>
