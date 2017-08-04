@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -21,7 +22,7 @@ public class HomeActivity extends AppCompatActivity {
     private int ringMode;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
@@ -35,6 +36,7 @@ public class HomeActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.testBox);
         editText.setText(text);
 
+        ringMode = getSavedRingMode();
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
         Switch silentSwitch = (Switch) findViewById(R.id.switch1);
@@ -45,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                    audioManager.setRingerMode(ringMode);
                 }
                 else {
                     audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
@@ -53,6 +55,29 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+
+        Switch vibrationModeSwitch = (Switch) findViewById(R.id.vibrationModeSwitch);
+        if (ringMode == AudioManager.RINGER_MODE_VIBRATE) {
+            vibrationModeSwitch.setChecked(true);
+        }
+        vibrationModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    ringMode = AudioManager.RINGER_MODE_VIBRATE;
+                    if (checkIfPhoneIsSilent()) {
+                        setPhoneSilent();
+                    }
+                }
+                else {
+                    ringMode = AudioManager.RINGER_MODE_SILENT;
+                    if (checkIfPhoneIsSilent()) {
+                        setPhoneSilent();
+                    }
+                }
+
+            }
+        });
         Button silentMode = (Button) findViewById(R.id.button2);
         silentMode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,19 +86,36 @@ public class HomeActivity extends AppCompatActivity {
                     audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
                 }
                 else {
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                    setPhoneSilent();
                 }
             }
         });
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        SharedPreferences sharedPreferences = getApplicationContext()
+                .getSharedPreferences("silentModePrefs", Context.MODE_PRIVATE);
+
+        sharedPreferences.edit()
+                .putInt("ringMode", ringMode)
+                .apply();
+    }
+
     private boolean checkIfPhoneIsSilent() {
-        int ringerMode = audioManager.getRingerMode();
-        return ringerMode == AudioManager.RINGER_MODE_SILENT;
+        return audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT || audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
+    }
+
+    private void setPhoneSilent() {
+        audioManager.setRingerMode(ringMode);
     }
 
     private int getSavedRingMode() {
-        //TODO: Restore prefs method
-        return 0;
+        SharedPreferences sharedPreferences = getApplicationContext()
+                .getSharedPreferences("silentModePrefs", Context.MODE_PRIVATE);
+
+        return sharedPreferences.getInt("ringMode", 0);
     }
 }
