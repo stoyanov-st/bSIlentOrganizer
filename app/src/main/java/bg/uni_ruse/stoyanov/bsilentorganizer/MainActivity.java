@@ -82,7 +82,8 @@ public class MainActivity extends AppCompatActivity implements
                 storeUserId(profile.getId());
                 userDao = getDaoSession().getUserDao();
                 userDao.insert(
-                new User(profile.getFirstName(),
+                new User(profile.getId(),
+                        profile.getFirstName(),
                         profile.getLastName(),
                         profile.getName(),
                         profile.getProfilePictureUri(50,50).toString()));
@@ -247,7 +248,8 @@ public class MainActivity extends AppCompatActivity implements
                 storeUserId(acct.getId());
                 userDao = getDaoSession().getUserDao();
                 userDao.insert(
-                new User(acct.getGivenName(),
+                new User(acct.getId(),
+                        acct.getGivenName(),
                         acct.getFamilyName(),
                         acct.getDisplayName(),
                         acct.getPhotoUrl().toString()));

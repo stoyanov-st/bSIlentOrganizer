@@ -26,6 +26,9 @@
 
     <dimen name="register_label_text_size">48sp</dimen>
 
+    <dimen name="user_name_label_text_size">25sp</dimen>
+
     <dimen name="dont_have_acc_label_margin_top">10dp</dimen>
     <dimen name="dont_have_acc_label_text_size">16sp</dimen>
+    <dimen name="label_text_size">24sp</dimen>
 </resources>

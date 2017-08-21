@@ -2,17 +2,24 @@ package bg.uni_ruse.stoyanov.bsilentorganizer;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
+
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.login.widget.ProfilePictureView;
 
 import org.greenrobot.greendao.query.QueryBuilder;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -31,15 +38,18 @@ public class HomeActivity extends AppCompatActivity {
         QueryBuilder<User> qb = userDao.queryBuilder();
         qb.where(UserDao.Properties.FullName.isNotNull()).limit(1);
         List<User> users = qb.list();
-        String text = users.get(0).getFullName();
+        User user = users.get(0);
 
-        EditText editText = (EditText) findViewById(R.id.testBox);
-        editText.setText(text);
+        ProfilePictureView profilePictureView = findViewById(R.id.fb_profile_picture);
+        profilePictureView.setProfileId(user.getUserId());
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(user.getFullName());
 
         ringMode = getSavedRingMode();
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
-        Switch silentSwitch = (Switch) findViewById(R.id.switch1);
+        Switch silentSwitch = findViewById(R.id.switch1);
         if(checkIfPhoneIsSilent()) {
             silentSwitch.setChecked(true);
         }
@@ -56,7 +66,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
-        Switch vibrationModeSwitch = (Switch) findViewById(R.id.vibrationModeSwitch);
+        Switch vibrationModeSwitch = findViewById(R.id.vibrationModeSwitch);
         if (ringMode == AudioManager.RINGER_MODE_VIBRATE) {
             vibrationModeSwitch.setChecked(true);
         }
@@ -74,19 +84,6 @@ public class HomeActivity extends AppCompatActivity {
                     if (checkIfPhoneIsSilent()) {
                         setPhoneSilent();
                     }
-                }
-
-            }
-        });
-        Button silentMode = (Button) findViewById(R.id.button2);
-        silentMode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkIfPhoneIsSilent()) {
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                }
-                else {
-                    setPhoneSilent();
                 }
             }
         });
