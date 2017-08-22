@@ -2,24 +2,23 @@ package bg.uni_ruse.stoyanov.bsilentorganizer;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.CompoundButton;
-import android.widget.Switch;
-import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.ListView;
+import android.widget.Switch;
 
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
 import com.facebook.login.widget.ProfilePictureView;
 
 import org.greenrobot.greendao.query.QueryBuilder;
-import org.json.JSONObject;
+
 
 import java.util.List;
 
@@ -27,6 +26,11 @@ public class HomeActivity extends AppCompatActivity {
     UserDao userDao;
     private AudioManager audioManager;
     private int ringMode;
+    private Toolbar toolbar;
+    private ListView drawerList;
+    private ActionBarDrawerToggle drawerToggle;
+    private DrawerLayout drawerLayout;
+    private String[] drawerListItems;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -40,11 +44,39 @@ public class HomeActivity extends AppCompatActivity {
         List<User> users = qb.list();
         User user = users.get(0);
 
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(user.getFullName());
+        drawerListItems = getResources().getStringArray(R.array.navigation_list);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        drawerList = findViewById(R.id.left_drawer);
+        drawerList.setAdapter(new ArrayAdapter<>(this, R.layout.navigation, drawerListItems));
+        drawerList.setOnItemClickListener(new DrawerItemClickListener());
+        setSupportActionBar(toolbar);
+        drawerToggle = new ActionBarDrawerToggle(this,
+                drawerLayout,
+                toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
+        drawerToggle.setDrawerIndicatorEnabled(false);
+        drawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (drawerLayout.isDrawerOpen(drawerList)) {
+                    drawerLayout.closeDrawer(drawerList, true);
+                }
+                else {
+                    drawerLayout.openDrawer(drawerList, true);
+                }
+            }
+        });
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+
         ProfilePictureView profilePictureView = findViewById(R.id.fb_profile_picture);
         profilePictureView.setProfileId(user.getUserId());
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(user.getFullName());
 
         ringMode = getSavedRingMode();
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -116,3 +148,12 @@ public class HomeActivity extends AppCompatActivity {
         return sharedPreferences.getInt("ringMode", 0);
     }
 }
+
+class DrawerItemClickListener implements ListView.OnItemClickListener{
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+}
+
