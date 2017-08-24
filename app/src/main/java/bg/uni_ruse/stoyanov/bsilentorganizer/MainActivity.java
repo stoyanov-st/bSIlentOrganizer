@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements
         registerButton.setOnClickListener(this);
 
         // Set the dimensions of the Google sign-in button.
-        SignInButton mGoogleSignInButton = (SignInButton) findViewById(R.id.google_sign_in_button);
+        SignInButton mGoogleSignInButton = findViewById(R.id.google_sign_in_button);
         mGoogleSignInButton.setSize(SignInButton.SIZE_WIDE);
         mGoogleSignInButton.setColorScheme(SignInButton.COLOR_AUTO);
         mGoogleSignInButton.setOnClickListener(this);
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements
 
         //Facebook Login
         mFacebookCallbackManager = CallbackManager.Factory.create();
-        LoginButton mFacebookLoginButton = (LoginButton) findViewById(R.id.fb_login_button);
+        LoginButton mFacebookLoginButton = findViewById(R.id.fb_login_button);
         mFacebookLoginButton.setOnClickListener(this);
         mFacebookLoginButton.registerCallback(mFacebookCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -82,8 +82,7 @@ public class MainActivity extends AppCompatActivity implements
                 storeUserId(profile.getId());
                 userDao = getDaoSession().getUserDao();
                 userDao.insert(
-                new User(profile.getId(),
-                        profile.getFirstName(),
+                new User(profile.getFirstName(),
                         profile.getLastName(),
                         profile.getName(),
                         profile.getProfilePictureUri(50,50).toString()));
@@ -109,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements
         });
     }
 
+
     /*
     * Checks if the user is already logged
     * if so redirects to home activity
@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements
             finish();
         }
     }
+
 
     /*
     * Handling sign in results
@@ -248,8 +249,7 @@ public class MainActivity extends AppCompatActivity implements
                 storeUserId(acct.getId());
                 userDao = getDaoSession().getUserDao();
                 userDao.insert(
-                new User(acct.getId(),
-                        acct.getGivenName(),
+                new User(acct.getGivenName(),
                         acct.getFamilyName(),
                         acct.getDisplayName(),
                         acct.getPhotoUrl().toString()));
@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements
 
     /*
     * Stores userId for auto login on next application start
-    * */
+    */
     private void storeUserId(String userId) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         preferences.edit().putString("userId", userId).apply();
@@ -289,9 +289,9 @@ public class MainActivity extends AppCompatActivity implements
     /*
     * Validating email
     * and redirect to registration activity
-    * */
+    */
     private void registerNewUser() {
-        EditText emailInput = (EditText) findViewById(R.id.emailInputBox);
+        EditText emailInput = findViewById(R.id.emailInputBox);
         String email = emailInput.getText().toString().trim();
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
         if (email.matches(emailPattern)) {
@@ -300,14 +300,14 @@ public class MainActivity extends AppCompatActivity implements
         else Toast.makeText(getApplicationContext(), "Invalid email", Toast.LENGTH_SHORT).show();
     }
 
+
+    /*
+     * Local DB initialization
+     */
     private void initDB() {
-        /*
-        * Local DB initialization
-        * */
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this , "users");
         Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
-
     }
 
     public static DaoSession getDaoSession() {

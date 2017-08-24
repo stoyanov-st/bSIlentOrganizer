@@ -1,36 +1,49 @@
 package bg.uni_ruse.stoyanov.bsilentorganizer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.AudioManager;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.ListView;
-import android.widget.Switch;
+import android.widget.ImageView;
 
 import com.facebook.login.widget.ProfilePictureView;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener{
     UserDao userDao;
-    private AudioManager audioManager;
-    private int ringMode;
+
     private Toolbar toolbar;
-    private ListView drawerList;
+    private NavigationView drawerList;
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
-    private String[] drawerListItems;
+    private FragmentManager fragmentManager;
+    private User user;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -42,15 +55,24 @@ public class HomeActivity extends AppCompatActivity {
         QueryBuilder<User> qb = userDao.queryBuilder();
         qb.where(UserDao.Properties.FullName.isNotNull()).limit(1);
         List<User> users = qb.list();
-        User user = users.get(0);
+        user = users.get(0);
+        String userId = getUserId();
 
+        //Load Home Fragment
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.frameContent, HomeFragment.newInstance()).commit();
+
+        // Toolbar and NavigationDrawer Setup
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(user.getFullName());
-        drawerListItems = getResources().getStringArray(R.array.navigation_list);
         drawerLayout = findViewById(R.id.drawer_layout);
         drawerList = findViewById(R.id.left_drawer);
-        drawerList.setAdapter(new ArrayAdapter<>(this, R.layout.navigation, drawerListItems));
-        drawerList.setOnItemClickListener(new DrawerItemClickListener());
+        drawerList.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                return false;
+            }
+        });
         setSupportActionBar(toolbar);
         drawerToggle = new ActionBarDrawerToggle(this,
                 drawerLayout,
@@ -70,90 +92,143 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        //Navigation Menu onClickListener
+        drawerList.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        Fragment fragment = null;
+                        Class fragmentClass;
 
+                        switch (menuItem.getItemId()) {
+                            case R.id.home_view:
+                                fragmentClass = HomeFragment.class;
+                                break;
+                            default:
+                                fragmentClass = HomeFragment.class;
+                        }
 
-        ProfilePictureView profilePictureView = findViewById(R.id.fb_profile_picture);
-        profilePictureView.setProfileId(user.getUserId());
+                        try {
+                            fragment = (Fragment) fragmentClass.newInstance();
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                            return false;
+                        }
 
+                        fragmentManager = getSupportFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.frameContent, fragment).commit();
 
-        ringMode = getSavedRingMode();
-        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                        menuItem.setChecked(true);
+                        drawerLayout.closeDrawers();
 
-        Switch silentSwitch = findViewById(R.id.switch1);
-        if(checkIfPhoneIsSilent()) {
-            silentSwitch.setChecked(true);
-        }
-        silentSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    audioManager.setRingerMode(ringMode);
-                }
-                else {
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                }
-            }
-        });
-
-
-        Switch vibrationModeSwitch = findViewById(R.id.vibrationModeSwitch);
-        if (ringMode == AudioManager.RINGER_MODE_VIBRATE) {
-            vibrationModeSwitch.setChecked(true);
-        }
-        vibrationModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    ringMode = AudioManager.RINGER_MODE_VIBRATE;
-                    if (checkIfPhoneIsSilent()) {
-                        setPhoneSilent();
+                        return true;
                     }
-                }
-                else {
-                    ringMode = AudioManager.RINGER_MODE_SILENT;
-                    if (checkIfPhoneIsSilent()) {
-                        setPhoneSilent();
-                    }
-                }
+                });
+
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.setDrawerIndicatorEnabled(true);
+        drawerToggle.syncState();
+
+        //Google profile picture
+       if (user.getImageUrl().contains("google")){
+           try {
+
+               new DownloadGProfilePicture(this).execute(new URL(user.getImageUrl()));
+           } catch (MalformedURLException e) {
+               e.printStackTrace();
+           }
+       } else {
+           //Facebook profile picture
+           ProfilePictureView profilePictureView = findViewById(R.id.fb_profile_picture);
+           profilePictureView.setVisibility(View.VISIBLE);
+           profilePictureView.setProfileId(userId);
+       }
+    }
+
+    private static class DownloadGProfilePicture extends AsyncTask<URL, Void, Bitmap> {
+        Object activity;
+
+        DownloadGProfilePicture(Activity activity) {
+             this.activity = activity;
+        }
+
+        private Object getActivity() {
+            return activity;
+        }
+
+        @Override
+        protected Bitmap doInBackground(URL... urls) {
+            Bitmap googleProfilePicture = null;
+            try {
+                HttpURLConnection connection = (HttpURLConnection) urls[0].openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream inputStream = connection.getInputStream();
+                googleProfilePicture = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(inputStream), 50, 55, false);
+                connection.disconnect();
+            } catch ( IOException ioe) {
+                ioe.printStackTrace();
             }
-        });
+
+            return googleProfilePicture;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            Activity mActivity = (Activity) getActivity();
+            ImageView googleImageView = mActivity.findViewById(R.id.g_profile_picture);
+            googleImageView.setVisibility(View.VISIBLE);
+            googleImageView.setImageBitmap(bitmap);
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-        SharedPreferences sharedPreferences = getApplicationContext()
-                .getSharedPreferences("silentModePrefs", Context.MODE_PRIVATE);
-
-        sharedPreferences.edit()
-                .putInt("ringMode", ringMode)
-                .apply();
     }
-
-    private boolean checkIfPhoneIsSilent() {
-        return audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT || audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
-    }
-
-    private void setPhoneSilent() {
-        audioManager.setRingerMode(ringMode);
-    }
-
-    private int getSavedRingMode() {
-        SharedPreferences sharedPreferences = getApplicationContext()
-                .getSharedPreferences("silentModePrefs", Context.MODE_PRIVATE);
-
-        return sharedPreferences.getInt("ringMode", 0);
-    }
-}
-
-class DrawerItemClickListener implements ListView.OnItemClickListener{
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    protected void onPostCreate(Bundle savedInstancesState) {
+        super.onPostCreate(savedInstancesState);
+
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(drawerList)) {
+            drawerLayout.closeDrawers();
+        }
+        else super.onBackPressed();
+    }
+
+    private String getUserId() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        return sharedPreferences.getString("userId", "UserID");
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }
-

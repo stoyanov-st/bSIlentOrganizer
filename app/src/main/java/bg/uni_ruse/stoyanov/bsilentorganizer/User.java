@@ -3,7 +3,6 @@ package bg.uni_ruse.stoyanov.bsilentorganizer;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Keep;
 
 /**
  * Created by stoyanovst on 11.07.17.
@@ -13,26 +12,17 @@ import org.greenrobot.greendao.annotation.Keep;
 class User {
 
     @Id(autoincrement = true)
-    private Long id;
-    private String userId;
+    private Long userId;
     private String firstName;
     private String lastName;
     private String fullName;
     private String imageUrl;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -68,19 +58,17 @@ class User {
         this.imageUrl = imageUrl;
     }
 
-    User(String userId, String firstName, String lastName, String fullName,
-         String imageUrl) {
-        this.userId = userId;
+    User(String firstName, String lastName, String fullName, String imageUrl) {
+        
         this.firstName = firstName;
         this.lastName = lastName;
         this.fullName = fullName;
         this.imageUrl = imageUrl;
     }
 
-    @Keep
-    public User(Long id, String userId, String firstName, String lastName, String fullName,
+    @Generated(hash = 14136224)
+    public User(Long userId, String firstName, String lastName, String fullName,
             String imageUrl) {
-        this.id = id;
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;

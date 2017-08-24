@@ -68,9 +68,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
 
-        EditText usernameInput = (EditText) findViewById(R.id.userNameRegisterInputBox);
-        EditText passInput = (EditText) findViewById(R.id.passwordRegisterInputBox);
-        EditText passConfirmInput = (EditText) findViewById(R.id.passwordConfirmRegisterInputBox);
+        EditText usernameInput = findViewById(R.id.userNameRegisterInputBox);
+        EditText passInput = findViewById(R.id.passwordRegisterInputBox);
+        EditText passConfirmInput = findViewById(R.id.passwordConfirmRegisterInputBox);
         final String username = usernameInput.getText().toString().trim();
         final String password = passInput.getText().toString().trim();
         final String passwordConfirm = passConfirmInput.getText().toString().trim();

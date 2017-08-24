@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="bg.uni_ruse.stoyanov.bsilentorganizer.HomeFragment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/AppTheme"
+    android:background="@color/colorBackground">
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:text="@string/silent_mode"
+        android:fontFamily="sans-serif-light"
+        android:textSize="@dimen/label_text_size"
+        android:textAppearance="@android:style/TextAppearance"
+        android:textColor="@color/colorBlack" />
+
+    <Switch
+        android:id="@+id/vibrationModeSwitch"
+        android:layout_below="@+id/switch1"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/use_vibration_mode"
+        android:fontFamily="sans-serif-light"
+        android:textSize="@dimen/label_text_size"
+        android:textColor="@color/colorBlack"/>
+
+</RelativeLayout>
