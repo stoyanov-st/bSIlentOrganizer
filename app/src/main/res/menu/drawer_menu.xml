@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single"
-        android:menuCategory="container">
+    <group
+        android:id="@+id/menu_top"
+        android:checkableBehavior="single"
+        android:orderInCategory="1">
         <item
             android:id="@+id/home_view"
-            android:icon="@drawable/ic_home_white_25dp"
-            android:title="Home"
+            android:checked="true"
             android:enabled="true"
-            android:checked="true"/>
+            android:icon="@drawable/ic_home_white_25dp"
+            android:title="@string/home" />
         <item
             android:id="@+id/profile_picture"
+            android:enabled="true"
             android:icon="@drawable/ic_person_white_25dp"
-            android:title="Profile"
-            android:enabled="true" />
+            android:title="@string/profile" />
+    </group>
+    <group
+        android:id="@+id/menu_bottom"
+        android:checkableBehavior="single"
+        android:orderInCategory="2">
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_exit_to_app_white_25dp"
+            android:title="@string/logout" />
     </group>
 </menu>

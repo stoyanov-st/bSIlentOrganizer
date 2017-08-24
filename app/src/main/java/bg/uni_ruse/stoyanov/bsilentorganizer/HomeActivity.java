@@ -1,7 +1,7 @@
 package bg.uni_ruse.stoyanov.bsilentorganizer;
 
 import android.app.Activity;
-import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -22,8 +22,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+
+import com.facebook.login.LoginManager;
 import com.facebook.login.widget.ProfilePictureView;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -44,6 +51,8 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
     private DrawerLayout drawerLayout;
     private FragmentManager fragmentManager;
     private User user;
+    private View headerView;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -55,7 +64,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         QueryBuilder<User> qb = userDao.queryBuilder();
         qb.where(UserDao.Properties.FullName.isNotNull()).limit(1);
         List<User> users = qb.list();
-        user = users.get(0);
+        user = users.get(users.size() - 1);
         String userId = getUserId();
 
         //Load Home Fragment
@@ -104,6 +113,8 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
                             case R.id.home_view:
                                 fragmentClass = HomeFragment.class;
                                 break;
+                            case R.id.logout:
+                                logout();
                             default:
                                 fragmentClass = HomeFragment.class;
                         }
@@ -130,20 +141,48 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         drawerToggle.setDrawerIndicatorEnabled(true);
         drawerToggle.syncState();
 
-        //Google profile picture
-       if (user.getImageUrl().contains("google")){
-           try {
+        //Navigation Header setup
+        headerView = drawerList.getHeaderView(0);
 
+        TextView headerNavText = headerView.findViewById(R.id.fullNameNav);
+        headerNavText.setText(user.getFullName());
+
+        //Google profile picture
+       if (user.isGoogleProfile()){
+           try {
                new DownloadGProfilePicture(this).execute(new URL(user.getImageUrl()));
            } catch (MalformedURLException e) {
                e.printStackTrace();
            }
        } else {
            //Facebook profile picture
+           ProfilePictureView profilePictureNavView = headerView.findViewById(R.id.fb_profile_picture_nav);
+           profilePictureNavView.setVisibility(View.VISIBLE);
+           profilePictureNavView.setProfileId(userId);
            ProfilePictureView profilePictureView = findViewById(R.id.fb_profile_picture);
            profilePictureView.setVisibility(View.VISIBLE);
            profilePictureView.setProfileId(userId);
        }
+    }
+
+    private void logout() {
+        if (user.isGoogleProfile()){
+            Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient);
+            goToMainActivity();
+        } else {
+            LoginManager.getInstance().logOut();
+            goToMainActivity();
+        }
+    }
+
+    private void goToMainActivity() {
+        startActivity(new Intent(this, MainActivity.class));
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        sharedPreferences.edit()
+                .clear()
+                .apply();
+        Toast.makeText(getApplicationContext(), R.string.logout, Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     private static class DownloadGProfilePicture extends AsyncTask<URL, Void, Bitmap> {
@@ -165,7 +204,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
                 connection.setDoInput(true);
                 connection.connect();
                 InputStream inputStream = connection.getInputStream();
-                googleProfilePicture = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(inputStream), 50, 55, false);
+                googleProfilePicture = BitmapFactory.decodeStream(inputStream);
                 connection.disconnect();
             } catch ( IOException ioe) {
                 ioe.printStackTrace();
@@ -179,15 +218,31 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
             Activity mActivity = (Activity) getActivity();
             ImageView googleImageView = mActivity.findViewById(R.id.g_profile_picture);
             googleImageView.setVisibility(View.VISIBLE);
-            googleImageView.setImageBitmap(bitmap);
+            googleImageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 50, 55, false));
+            ImageView googleNavImageView = mActivity.findViewById(R.id.g_profile_picture_nav);
+            googleNavImageView.setVisibility(View.VISIBLE);
+            googleNavImageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 90, 90, false));
         }
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-
+    protected void onStart() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        mGoogleApiClient.connect();
+        super.onStart();
     }
+
+    @Override
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
 
     @Override
     protected void onPostCreate(Bundle savedInstancesState) {

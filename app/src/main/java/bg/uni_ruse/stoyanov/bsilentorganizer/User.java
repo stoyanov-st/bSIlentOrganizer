@@ -17,6 +17,7 @@ class User {
     private String lastName;
     private String fullName;
     private String imageUrl;
+    private Boolean isGoogleProfile;
 
     public Long getUserId() {
         return userId;
@@ -58,22 +59,32 @@ class User {
         this.imageUrl = imageUrl;
     }
 
-    User(String firstName, String lastName, String fullName, String imageUrl) {
-        
+    public Boolean isGoogleProfile() {
+        return this.isGoogleProfile;
+    }
+
+    public void setIsGoogleProfile(Boolean isGoogleProfile) {
+        this.isGoogleProfile = isGoogleProfile;
+    }
+
+    User(String firstName, String lastName, String fullName, String imageUrl, Boolean accType) {
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.fullName = fullName;
         this.imageUrl = imageUrl;
+        this.isGoogleProfile = accType;
     }
 
-    @Generated(hash = 14136224)
-    public User(Long userId, String firstName, String lastName, String fullName,
-            String imageUrl) {
+    @Generated(hash = 61236430)
+    public User(Long userId, String firstName, String lastName, String fullName, String imageUrl,
+            Boolean isGoogleProfile) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.fullName = fullName;
         this.imageUrl = imageUrl;
+        this.isGoogleProfile = isGoogleProfile;
     }
 
     @Generated(hash = 586692638)
@@ -88,6 +99,11 @@ class User {
                 ", lastName='" + lastName + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
+                ", isGoogleProfile" + isGoogleProfile + '\'' +
                 '}';
+    }
+
+    public Boolean getIsGoogleProfile() {
+        return this.isGoogleProfile;
     }
 }

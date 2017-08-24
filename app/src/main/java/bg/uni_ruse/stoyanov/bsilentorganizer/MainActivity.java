@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -72,12 +73,11 @@ public class MainActivity extends AppCompatActivity implements
 
         //Facebook Login
         mFacebookCallbackManager = CallbackManager.Factory.create();
-        LoginButton mFacebookLoginButton = findViewById(R.id.fb_login_button);
+        final LoginButton mFacebookLoginButton = findViewById(R.id.fb_login_button);
         mFacebookLoginButton.setOnClickListener(this);
         mFacebookLoginButton.registerCallback(mFacebookCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(final LoginResult loginResult) {
-                //TODO: Use the Profile class to get information about the current user.
                 Profile profile = Profile.getCurrentProfile();
                 storeUserId(profile.getId());
                 userDao = getDaoSession().getUserDao();
@@ -85,11 +85,19 @@ public class MainActivity extends AppCompatActivity implements
                 new User(profile.getFirstName(),
                         profile.getLastName(),
                         profile.getName(),
-                        profile.getProfilePictureUri(50,50).toString()));
+                        profile.getProfilePictureUri(50,50).toString(),
+                        true));
                 handleSignInResult(new Callable<Void>() {
                    @Override
                     public Void call() throws Exception {
-                       LoginManager.getInstance().logOut();
+                       if (AccessToken.getCurrentAccessToken() != null) {
+                           mFacebookLoginButton.performClick();
+                           LoginManager.getInstance().logOut();
+                           Log.v("User logout", "YES");
+                       }
+                       else {
+                           handleSignInResult(null);
+                       }
                        return null;
                    }
                 });
@@ -252,7 +260,8 @@ public class MainActivity extends AppCompatActivity implements
                 new User(acct.getGivenName(),
                         acct.getFamilyName(),
                         acct.getDisplayName(),
-                        acct.getPhotoUrl().toString()));
+                        acct.getPhotoUrl().toString(),
+                        true));
                 handleSignInResult(new Callable<Void>() {
                     @Override
                     public Void call() throws Exception {

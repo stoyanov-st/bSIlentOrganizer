@@ -35,6 +35,7 @@
 
 
     <com.facebook.login.widget.LoginButton
+        xmlns:fb="http://schemas.android.com/apk/res-auto"
         android:id="@+id/fb_login_button"
         android:layout_width="@dimen/button_width"
         android:layout_height="wrap_content"
@@ -43,7 +44,11 @@
         android:layout_alignStart="@+id/google_sign_in_button"
         android:layout_below="@+id/google_sign_in_button"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/login_fb_margin_top" />
+        android:layout_marginTop="@dimen/login_fb_margin_top"
+        fb:com_facebook_confirm_logout="false"
+        fb:com_facebook_login_text="@string/com_facebook_loginview_log_in_button_continue"
+        fb:com_facebook_logout_text="@string/com_facebook_loginview_log_in_button_continue"/>
+
 
     <ImageView
         android:id="@+id/or_line"
