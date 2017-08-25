@@ -11,15 +11,40 @@
             android:icon="@drawable/ic_home_white_25dp"
             android:title="@string/home" />
         <item
-            android:id="@+id/profile_picture"
+            android:id="@+id/profile_view"
             android:enabled="true"
             android:icon="@drawable/ic_person_white_25dp"
             android:title="@string/profile" />
     </group>
     <group
-        android:id="@+id/menu_bottom"
+        android:id="@+id/menu_functions"
         android:checkableBehavior="single"
         android:orderInCategory="2">
+        <item
+            android:id="@+id/silent_mode_view"
+            android:icon="@drawable/ic_vibration_white_25dp"
+            android:title="@string/silent_mode_manager"/>
+        <item
+            android:id="@+id/notes_view"
+            android:icon="@drawable/ic_note_white_25dp"
+            android:title="@string/notes"/>
+        <item
+            android:id="@+id/calendar_view"
+            android:icon="@drawable/ic_perm_contact_calendar_white_25dp"
+            android:title="@string/calendar"/>
+        <item
+            android:id="@+id/qr_view"
+            android:icon="@drawable/ic_center_focus_weak_white_25dp"
+            android:title="@string/qr_scanner"/>
+        <item
+            android:id="@+id/flashlight_view"
+            android:icon="@drawable/ic_wb_incandescent_white_25dp"
+            android:title="@string/flashlight"/>
+    </group>
+    <group
+        android:id="@+id/menu_bottom"
+        android:checkableBehavior="single"
+        android:orderInCategory="3">
         <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_exit_to_app_white_25dp"

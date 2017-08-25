@@ -55,5 +55,10 @@
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="profile_picture">ProfilePicture</string>
+    <string name="silent_mode_manager">Silent Mode Manager</string>
+    <string name="calendar">Calendar</string>
+    <string name="qr_scanner">QR Scanner</string>
+    <string name="notes">Notes</string>
+    <string name="flashlight">Flashlight</string>
 
 </resources>
