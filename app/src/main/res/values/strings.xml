@@ -54,5 +54,6 @@
     <string name="logout">Logout</string>
     <string name="home">Home</string>
     <string name="profile">Profile</string>
+    <string name="profile_picture">ProfilePicture</string>
 
 </resources>

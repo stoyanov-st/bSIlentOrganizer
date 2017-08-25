@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,7 +63,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         userDao = MainActivity.getDaoSession().getUserDao();
 
         QueryBuilder<User> qb = userDao.queryBuilder();
-        qb.where(UserDao.Properties.FullName.isNotNull()).limit(1);
+        qb.where(UserDao.Properties.FullName.isNotNull());
         List<User> users = qb.list();
         user = users.get(users.size() - 1);
         String userId = getUserId();
@@ -157,11 +158,13 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
        } else {
            //Facebook profile picture
            ProfilePictureView profilePictureNavView = headerView.findViewById(R.id.fb_profile_picture_nav);
-           profilePictureNavView.setVisibility(View.VISIBLE);
            profilePictureNavView.setProfileId(userId);
+           FrameLayout frameLayout = headerView.findViewById(R.id.frame_layout_nav);
+           frameLayout.setVisibility(View.VISIBLE);
            ProfilePictureView profilePictureView = findViewById(R.id.fb_profile_picture);
            profilePictureView.setVisibility(View.VISIBLE);
            profilePictureView.setProfileId(userId);
+
        }
     }
 

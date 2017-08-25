@@ -28,4 +28,68 @@
         <item name="spinBars">true</item>
         <item name="color">@color/colorWhite</item>
     </style>
+
+    <style name="AppLogoStyle" parent="AppTheme">
+        <item name="android:layout_height">@dimen/logo_height</item>
+        <item name="android:layout_width">@dimen/logo_width</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginTop">@dimen/logo_margin_top</item>
+        <item name="android:foregroundGravity">center_horizontal|center</item>
+    </style>
+
+    <style name="GoogleSignInButtonStyle">
+        <item name="android:layout_width">@dimen/button_width</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginTop">@dimen/login_google_margin_top</item>
+    </style>
+
+    <style name="FacebookLoginButtonStyle" parent="com_facebook_button">
+        <item name="android:layout_width">@dimen/button_width</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/login_fb_padding</item>
+        <item name="android:paddingBottom">@dimen/login_fb_padding</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/login_fb_margin_top</item>
+    </style>
+
+    <style name="OrLineStyle" parent="AppTheme">
+        <item name="android:layout_width">@dimen/button_width</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginTop">@dimen/or_line_margin_top</item>
+    </style>
+
+    <style name="EditTextStyle" parent="AppTheme">
+        <item name="android:layout_width">@dimen/input_box_width</item>
+        <item name="android:layout_height">@dimen/input_box_height</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginTop">@dimen/input_box_margin_top</item>
+        <item name="android:layout_marginLeft">@dimen/input_box_side_margin</item>
+        <item name="android:layout_marginRight">@dimen/input_box_side_margin</item>
+        <item name="android:background">@drawable/input_box</item>
+        <item name="android:ems">10</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:inputType">textEmailAddress</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColorHint">@color/colorWhite</item>
+        <item name="android:textColorLink">@color/colorWhite</item>
+        <item name="android:textSize">@dimen/input_box_text_size</item>
+        <item name="android:textCursorDrawable">@null</item>
+    </style>
+
+    <style name="ButtonStyle" parent="AppTheme">
+        <item name="android:layout_width">@dimen/button_width</item>
+        <item name="android:layout_height">@dimen/button_height</item>
+        <item name="android:layout_marginTop">@dimen/button_margin_top</item>
+        <item name="android:background">@drawable/login_button_states</item>
+        <item name="android:elevation">10dp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+    </style>
+
 </resources>

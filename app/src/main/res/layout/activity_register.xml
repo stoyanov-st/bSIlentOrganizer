@@ -16,11 +16,7 @@
 
     <ImageView
         android:id="@+id/logoImageReg"
-        android:layout_width="@dimen/logo_width"
-        android:layout_height="@dimen/logo_height"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/logo_margin_top"
+        style="@style/AppLogoStyle"
         android:contentDescription="@string/b_silent_logo"
         android:foregroundGravity="center_horizontal|center"
         app:srcCompat="@drawable/b_silent_logo_no_bg" />
@@ -41,79 +37,36 @@
 
     <EditText
         android:id="@+id/userNameRegisterInputBox"
-        android:layout_width="@dimen/input_box_width"
-        android:layout_height="@dimen/input_box_height"
-        android:layout_marginLeft="@dimen/input_box_side_margin"
-        android:layout_marginRight="@dimen/input_box_side_margin"
-        android:background="@drawable/input_box"
-        android:ems="10"
-        android:fontFamily="sans-serif-condensed"
+        style="@style/EditTextStyle"
         android:hint="@string/username"
-        android:inputType="textNoSuggestions"
-        android:textAlignment="center"
-        android:textColor="@color/colorWhite"
-        android:textColorHint="@color/colorWhite"
-        android:textColorLink="@color/colorWhite"
-        android:textCursorDrawable="@null"
-        android:textSize="@dimen/input_box_text_size"
         android:layout_marginTop="10dp"
+        android:inputType="textNoSuggestions"
         android:layout_below="@+id/register_label"
         android:layout_centerHorizontal="true" />
 
     <EditText
         android:id="@+id/passwordRegisterInputBox"
-        android:layout_width="@dimen/input_box_width"
-        android:layout_height="@dimen/input_box_height"
-        android:layout_below="@+id/userNameRegisterInputBox"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/input_box_side_margin"
-        android:layout_marginRight="@dimen/input_box_side_margin"
+        style="@style/EditTextStyle"
         android:layout_marginTop="@dimen/button_margin_top"
-        android:background="@drawable/input_box"
-        android:ems="10"
-        android:fontFamily="sans-serif-condensed"
+        android:layout_below="@+id/userNameRegisterInputBox"
         android:hint="@string/password"
-        android:inputType="textPassword"
-        android:textAlignment="center"
-        android:textColor="@color/colorWhite"
-        android:textColorHint="@color/colorWhite"
-        android:textColorLink="@color/colorWhite"
-        android:textCursorDrawable="@null"
-        android:textSize="@dimen/input_box_text_size" />
+        android:inputType="textPassword" />
 
     <EditText
         android:id="@+id/passwordConfirmRegisterInputBox"
-        android:layout_width="@dimen/input_box_width"
-        android:layout_height="@dimen/input_box_height"
-        android:layout_below="@+id/passwordRegisterInputBox"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/input_box_side_margin"
-        android:layout_marginRight="@dimen/input_box_side_margin"
+        style="@style/EditTextStyle"
         android:layout_marginTop="@dimen/button_margin_top"
-        android:background="@drawable/input_box"
-        android:ems="10"
-        android:fontFamily="sans-serif-condensed"
+        android:layout_below="@+id/passwordRegisterInputBox"
         android:hint="@string/confirm_password"
-        android:inputType="textPassword"
-        android:textAlignment="center"
-        android:textColor="@color/colorWhite"
-        android:textColorHint="@color/colorWhite"
-        android:textColorLink="@color/colorWhite"
-        android:textCursorDrawable="@null"
-        android:textSize="@dimen/input_box_text_size" />
+        android:inputType="textPassword"/>
 
     <Button
         android:id="@+id/registerButton"
-        android:layout_width="@dimen/button_width"
-        android:layout_height="@dimen/button_height"
+        style="@style/ButtonStyle"
         android:layout_alignStart="@+id/passwordConfirmRegisterInputBox"
         android:layout_below="@+id/passwordConfirmRegisterInputBox"
         android:layout_marginTop="@dimen/button_margin_top"
-        android:background="@drawable/login_button_states"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/register"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/button_text_size" />
+        android:text="@string/register"/>
 
 
 </RelativeLayout>

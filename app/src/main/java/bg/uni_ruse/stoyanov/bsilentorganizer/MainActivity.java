@@ -86,12 +86,11 @@ public class MainActivity extends AppCompatActivity implements
                         profile.getLastName(),
                         profile.getName(),
                         profile.getProfilePictureUri(50,50).toString(),
-                        true));
+                        false));
                 handleSignInResult(new Callable<Void>() {
                    @Override
                     public Void call() throws Exception {
                        if (AccessToken.getCurrentAccessToken() != null) {
-                           mFacebookLoginButton.performClick();
                            LoginManager.getInstance().logOut();
                            Log.v("User logout", "YES");
                        }
