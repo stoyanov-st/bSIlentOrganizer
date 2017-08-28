@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/power_icon">
-        <shape android:shape="oval">
-            <solid android:color="@color/colorAccent" />
-            <size
-                android:width="@dimen/logo_height"
-                android:height="@dimen/logo_height" />
-        </shape>
-    </item>
+    <item android:drawable="@drawable/power_icon"/>
 </layer-list>
