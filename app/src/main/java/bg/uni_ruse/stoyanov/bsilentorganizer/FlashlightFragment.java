@@ -1,43 +1,41 @@
 package bg.uni_ruse.stoyanov.bsilentorganizer;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.ToggleButton;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FLashlightFragment.OnFragmentInteractionListener} interface
+ * {@link FlashlightFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FLashlightFragment#newInstance} factory method to
+ * Use the {@link FlashlightFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FLashlightFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class FlashlightFragment extends Fragment {
 
-    // TODO: Rename and change types of parameters
 
+    private CameraManager cameraManager;
     private OnFragmentInteractionListener mListener;
+    private String cameraId;
 
-    public FLashlightFragment() {
+    public FlashlightFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FLashlightFragment newInstance() {
-        return new FLashlightFragment();
+    public static FlashlightFragment newInstance() {
+        return new FlashlightFragment();
     }
 
     @Override
@@ -49,7 +47,34 @@ public class FLashlightFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_flashlight, container, false);
+        View view = inflater.inflate(R.layout.fragment_flashlight, container, false);
+
+        ToggleButton flashToggle = view.findViewById(R.id.flash_light_toggle);
+
+
+        flashToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    try {
+                        cameraManager.setTorchMode(cameraId, true);
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    try {
+                        cameraManager.setTorchMode(cameraId, false);
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

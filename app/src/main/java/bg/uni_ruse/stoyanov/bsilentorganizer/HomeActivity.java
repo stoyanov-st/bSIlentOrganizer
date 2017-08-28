@@ -44,7 +44,7 @@ import java.net.URL;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener,
-        FLashlightFragment.OnFragmentInteractionListener{
+        FlashlightFragment.OnFragmentInteractionListener{
     UserDao userDao;
 
     private Toolbar toolbar;
@@ -116,7 +116,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
                                 fragmentClass = HomeFragment.class;
                                 break;
                             case R.id.flashlight_view:
-                                fragmentClass = FLashlightFragment.class;
+                                fragmentClass = FlashlightFragment.class;
                                 break;
                             case R.id.logout:
                                 logout();
