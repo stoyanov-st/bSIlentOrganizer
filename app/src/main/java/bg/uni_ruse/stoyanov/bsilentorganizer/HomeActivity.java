@@ -43,7 +43,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener{
+public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener,
+        FLashlightFragment.OnFragmentInteractionListener{
     UserDao userDao;
 
     private Toolbar toolbar;
@@ -114,12 +115,14 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
                             case R.id.home_view:
                                 fragmentClass = HomeFragment.class;
                                 break;
+                            case R.id.flashlight_view:
+                                fragmentClass = FLashlightFragment.class;
+                                break;
                             case R.id.logout:
                                 logout();
                             default:
                                 fragmentClass = HomeFragment.class;
                         }
-
                         try {
                             fragment = (Fragment) fragmentClass.newInstance();
                         }
