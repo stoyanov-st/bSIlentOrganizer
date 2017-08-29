@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:theme="@style/AppTheme"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="150dp"
+    android:layout_height="360dp"
+    android:layout_marginTop="100dp"
     android:layout_centerVertical="true"
     android:background="@color/colorBackground"
     tools:context="bg.uni_ruse.stoyanov.bsilentorganizer.FlashlightFragment">
@@ -11,6 +11,7 @@
     <ToggleButton
         android:id="@+id/flash_light_toggle"
         android:background="@drawable/flash_light_button_states"
+        android:layout_margin="65dp"
         android:layout_width="255dp"
         android:layout_height="255dp"
         android:layout_centerInParent="true"
@@ -18,4 +19,16 @@
         android:textOff=""
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
+
+    <Switch
+        android:id="@+id/use_in_bg_switch"
+        android:layout_width="325dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/use_in_background_mode"
+        android:textAppearance="@android:style/TextAppearance"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/label_text_size" />
 </RelativeLayout>

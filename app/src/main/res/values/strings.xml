@@ -60,5 +60,6 @@
     <string name="qr_scanner">QR Scanner</string>
     <string name="notes">Notes</string>
     <string name="flashlight">Flashlight</string>
+    <string name="use_in_background_mode">Use in Background Mode</string>
 
 </resources>
