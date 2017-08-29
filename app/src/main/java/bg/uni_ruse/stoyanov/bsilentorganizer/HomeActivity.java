@@ -43,10 +43,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener,
-        FlashlightFragment.OnFragmentInteractionListener{
-    UserDao userDao;
+import bg.uni_ruse.stoyanov.bsilentorganizer.note.NotesFragment;
+import bg.uni_ruse.stoyanov.bsilentorganizer.user.User;
+import bg.uni_ruse.stoyanov.bsilentorganizer.user.UserDao;
 
+import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.SocialId.getUserId;
+
+public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener,
+        FlashlightFragment.OnFragmentInteractionListener,
+        NotesFragment.OnFragmentInteractionListener{
+
+    private UserDao userDao;
     private Toolbar toolbar;
     private NavigationView drawerList;
     private ActionBarDrawerToggle drawerToggle;
@@ -61,13 +68,13 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        String userId = getUserId(getApplicationContext());
         userDao = MainActivity.getDaoSession().getUserDao();
 
         QueryBuilder<User> qb = userDao.queryBuilder();
-        qb.where(UserDao.Properties.FullName.isNotNull());
+        qb.where(UserDao.Properties.SocialId.like(userId));
         List<User> users = qb.list();
-        user = users.get(users.size() - 1);
-        String userId = getUserId();
+        user = users.get(0);
 
         //Load Home Fragment
         fragmentManager = getSupportFragmentManager();
@@ -113,6 +120,21 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
 
                         switch (menuItem.getItemId()) {
                             case R.id.home_view:
+                                fragmentClass = HomeFragment.class;
+                                break;
+                            case R.id.profile_view:
+                                fragmentClass = HomeFragment.class;
+                                break;
+                            case R.id.silent_mode_view:
+                                fragmentClass = HomeFragment.class;
+                                break;
+                            case R.id.notes_view:
+                                fragmentClass = NotesFragment.class;
+                                break;
+                            case R.id.calendar_view:
+                                fragmentClass = HomeFragment.class;
+                                break;
+                            case R.id.qr_view:
                                 fragmentClass = HomeFragment.class;
                                 break;
                             case R.id.flashlight_view:
@@ -167,7 +189,6 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
            ProfilePictureView profilePictureView = findViewById(R.id.fb_profile_picture);
            profilePictureView.setVisibility(View.VISIBLE);
            profilePictureView.setProfileId(userId);
-
        }
     }
 
@@ -281,11 +302,6 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
             drawerLayout.closeDrawers();
         }
         else super.onBackPressed();
-    }
-
-    private String getUserId() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        return sharedPreferences.getString("userId", "UserID");
     }
 
     @Override

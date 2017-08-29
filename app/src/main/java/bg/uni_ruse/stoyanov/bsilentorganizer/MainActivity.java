@@ -33,12 +33,16 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import bg.uni_ruse.stoyanov.bsilentorganizer.user.DaoMaster;
+import bg.uni_ruse.stoyanov.bsilentorganizer.user.DaoSession;
+import bg.uni_ruse.stoyanov.bsilentorganizer.user.User;
+import bg.uni_ruse.stoyanov.bsilentorganizer.user.UserDao;
 
 import org.greenrobot.greendao.database.Database;
 
 import java.util.Arrays;
 import java.util.concurrent.Callable;
-import java.util.regex.Pattern;
+
 
 public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
@@ -81,8 +85,9 @@ public class MainActivity extends AppCompatActivity implements
                 Profile profile = Profile.getCurrentProfile();
                 storeUserId(profile.getId());
                 userDao = getDaoSession().getUserDao();
-                userDao.insert(
-                new User(profile.getFirstName(),
+                userDao.insertOrReplace(
+                new User(profile.getId(),
+                        profile.getFirstName(),
                         profile.getLastName(),
                         profile.getName(),
                         profile.getProfilePictureUri(50,50).toString(),
@@ -256,7 +261,8 @@ public class MainActivity extends AppCompatActivity implements
                 storeUserId(acct.getId());
                 userDao = getDaoSession().getUserDao();
                 userDao.insert(
-                new User(acct.getGivenName(),
+                new User(acct.getId(),
+                        acct.getGivenName(),
                         acct.getFamilyName(),
                         acct.getDisplayName(),
                         acct.getPhotoUrl().toString(),

@@ -102,7 +102,6 @@ public class FlashlightFragment extends Fragment {
             }
         });
 
-
         backgroundModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -160,8 +159,8 @@ public class FlashlightFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-        camera.release();
+        if (camera != null)
+            camera.release();
     }
 
     private void turnFlashOn(){
@@ -174,7 +173,6 @@ public class FlashlightFragment extends Fragment {
     }
 
     private void turnFlashOff() throws IOException {
-
         camera.reconnect();
         cameraParameters = camera.getParameters();
         cameraParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);

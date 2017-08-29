@@ -16,11 +16,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.greenrobot.greendao.database.Database;
-
 
 import java.util.HashMap;
 import java.util.Map;
+
+import bg.uni_ruse.stoyanov.bsilentorganizer.user.User;
+import bg.uni_ruse.stoyanov.bsilentorganizer.user.UserDao;
 
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
@@ -28,7 +29,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private String email = "";
     private String initToken = "";
     RequestQueue queue;
-    UserDao userDao;
+    private UserDao userDao;
     final String url = "http://10.0.2.2:3000";
 
     @Override
