@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -43,6 +44,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import bg.uni_ruse.stoyanov.bsilentorganizer.note.NewNoteDialogFragment;
 import bg.uni_ruse.stoyanov.bsilentorganizer.note.NotesFragment;
 import bg.uni_ruse.stoyanov.bsilentorganizer.user.User;
 import bg.uni_ruse.stoyanov.bsilentorganizer.user.UserDao;

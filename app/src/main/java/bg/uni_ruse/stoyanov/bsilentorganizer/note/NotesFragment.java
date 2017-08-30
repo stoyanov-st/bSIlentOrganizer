@@ -1,21 +1,30 @@
 package bg.uni_ruse.stoyanov.bsilentorganizer.note;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
+import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import bg.uni_ruse.stoyanov.bsilentorganizer.MainActivity;
 import bg.uni_ruse.stoyanov.bsilentorganizer.R;
 
 import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.SocialId.getUserId;
-
+import static bg.uni_ruse.stoyanov.bsilentorganizer.note.NoteList.getNotes;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,9 +34,13 @@ import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.SocialId.getUserId;
  * Use the {@link NotesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotesFragment extends Fragment {
+public class NotesFragment extends Fragment
+                            implements AdapterView.OnItemClickListener{
 
-    private OnFragmentInteractionListener mListener;
+    private OnFragmentInteractionListener onFragmentInteractionListener;
+    private ArrayList<Note> noteList;
+    private ArrayAdapter<Note> arrayAdapter;
+    private NoteDao noteDao;
 
     public NotesFragment() {
         // Required empty public constructor
@@ -38,7 +51,6 @@ public class NotesFragment extends Fragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment NotesFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static NotesFragment newInstance() {
        return new NotesFragment();
     }
@@ -47,6 +59,7 @@ public class NotesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        noteDao = MainActivity.getDaoSession().getNoteDao();
     }
 
     @Override
@@ -55,28 +68,31 @@ public class NotesFragment extends Fragment {
         //Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_notes, container, false);
 
-        ListView listView = view.findViewById(R.id.notes_list);
-        ArrayList<Note> noteList = new ArrayList<>();
-        ArrayAdapter<Note> arrayAdapter = new NoteAdapter(getContext(), noteList);
-        listView.setAdapter(arrayAdapter);
+        FloatingActionButton floatingActionButton = view.findViewById(R.id.floatingActionButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showNewNoteDialog();
+            }
+        });
 
-        noteList.add(new Note(getUserId(view.getContext()), "Title", "text"));
+        ListView listView = view.findViewById(R.id.notes_list);
+        noteList = new ArrayList<>();
+        arrayAdapter = new NoteAdapter(getContext(), noteList);
+        listView.setAdapter(arrayAdapter);
+        listView.setOnItemClickListener(this);
+        arrayAdapter.notifyDataSetChanged();
+
+        noteList.addAll(getNotes(getContext()));
 
         return view;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+            onFragmentInteractionListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -86,7 +102,52 @@ public class NotesFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        onFragmentInteractionListener = null;
+    }
+
+    public void showNewNoteDialog() {
+        DialogFragment newFragment = new NewNoteDialogFragment();
+        newFragment.setTargetFragment(this, 1);
+        newFragment.show(getFragmentManager(), "NewNote");
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                Long noteId = null;
+                String noteTitle = data.getStringExtra("noteTitle");
+                String noteText = data.getStringExtra("noteText");
+
+                QueryBuilder<Note> queryBuilder = noteDao.queryBuilder();
+                List<Note> notes = queryBuilder.where(NoteDao.Properties.NoteTitle.like(noteTitle)).limit(1).list();
+                if (!notes.isEmpty()) {
+                    noteId = notes.get(0).getId();
+                }
+                Note newNote = new Note(noteId, getUserId(getContext()),
+                        noteTitle,
+                        noteText);
+                noteDao.insertOrReplace(newNote);
+
+                arrayAdapter.clear();
+                arrayAdapter.addAll(getNotes(getContext()));
+                arrayAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Note note = (Note) adapterView.getItemAtPosition(i);
+        Bundle bundle = new Bundle();
+        bundle.putString("noteTitle", note.getNoteTitle());
+        bundle.putString("noteText", note.getNoteText());
+        DialogFragment newFragment = new NewNoteDialogFragment();
+        newFragment.setArguments(bundle);
+        newFragment.setTargetFragment(this, 2);
+        newFragment.show(getFragmentManager(), "ViewNote");
     }
 
     /**
@@ -100,7 +161,6 @@ public class NotesFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

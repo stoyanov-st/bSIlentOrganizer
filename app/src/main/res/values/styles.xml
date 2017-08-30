@@ -92,4 +92,17 @@
         <item name="android:textSize">@dimen/button_text_size</item>
     </style>
 
+    <style name="DialogStyle" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/colorBackground</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorBlack</item>
+        <item name="android:textColorSecondary">@color/colorBlack</item>
+        <item name="android:buttonBarButtonStyle">@style/DialogButtonStyle</item>
+    </style>
+
+    <style name="DialogButtonStyle" parent="Base.Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/colorBlack</item>
+    </style>
+
 </resources>

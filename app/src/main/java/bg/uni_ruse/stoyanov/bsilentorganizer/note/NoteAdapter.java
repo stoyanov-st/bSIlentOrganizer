@@ -6,11 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
+
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.ArrayList;
 
+import bg.uni_ruse.stoyanov.bsilentorganizer.MainActivity;
 import bg.uni_ruse.stoyanov.bsilentorganizer.R;
+
+import static bg.uni_ruse.stoyanov.bsilentorganizer.note.NoteList.getNotes;
 
 /**
  * Created by stoyanovst on 8/29/17.
@@ -25,7 +31,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Note note = getItem(position);
+        final Note note = getItem(position);
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.notes_list_item_layout, parent, false);
@@ -38,6 +44,18 @@ public class NoteAdapter extends ArrayAdapter<Note> {
             titleTextView.setText(note.getNoteTitle());
             previewTextView.setText(note.getNoteText());
         }
+
+        Button deleteButton = convertView.findViewById(R.id.delete_note);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NoteDao noteDao = MainActivity.getDaoSession().getNoteDao();
+                noteDao.delete(note);
+                clear();
+                addAll(getNotes(getContext()));
+                notifyDataSetChanged();
+            }
+        });
 
         return convertView;
     }
