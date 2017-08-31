@@ -73,7 +73,7 @@ public class QRScannerFragment extends Fragment {
                 .build();
 
         cameraSource = new CameraSource.Builder(getContext(), barcodeDetector)
-                .setRequestedPreviewSize(350, 400)
+                .setRequestedPreviewSize(350, 350)
                 .setAutoFocusEnabled(true)
                 .build();
 
