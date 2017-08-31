@@ -66,5 +66,6 @@
     <string name="cancel">Cancel</string>
     <string name="new_note">New Note</string>
     <string name="edit_note">Edit Note</string>
+    <string name="scan_your_qr_code">Scan your QR code</string>
 
 </resources>

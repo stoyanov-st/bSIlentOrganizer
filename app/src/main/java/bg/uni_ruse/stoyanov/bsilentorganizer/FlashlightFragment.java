@@ -1,15 +1,10 @@
 package bg.uni_ruse.stoyanov.bsilentorganizer;
 
-import android.*;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +12,10 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.ToggleButton;
+
+import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.CheckCameraPermissions.checkPermission;
+import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.KeepScreenOn.clearKeepScreenOnFlag;
+import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.KeepScreenOn.setKeepScreenOnFlag;
 
 import java.io.IOException;
 
@@ -50,19 +49,10 @@ public class FlashlightFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        checkForCameraPermissions();
+        setKeepScreenOnFlag(getActivity());
+        checkPermission(getActivity());
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
-    private void checkForCameraPermissions() {
-        int hasCameraPermission = getActivity().checkSelfPermission(android.Manifest.permission.CAMERA);
-        if (hasCameraPermission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{android.Manifest.permission.CAMERA},
-                    1);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,13 +104,6 @@ public class FlashlightFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -136,6 +119,7 @@ public class FlashlightFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        clearKeepScreenOnFlag(getActivity());
     }
 
     @Override
@@ -199,7 +183,6 @@ public class FlashlightFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

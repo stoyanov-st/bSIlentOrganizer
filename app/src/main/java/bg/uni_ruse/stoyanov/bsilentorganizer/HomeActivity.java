@@ -53,7 +53,8 @@ import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.SocialId.getUserId;
 
 public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener,
         FlashlightFragment.OnFragmentInteractionListener,
-        NotesFragment.OnFragmentInteractionListener{
+        NotesFragment.OnFragmentInteractionListener,
+        QRScannerFragment.OnFragmentInteractionListener{
 
     private UserDao userDao;
     private Toolbar toolbar;
@@ -137,7 +138,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
                                 fragmentClass = HomeFragment.class;
                                 break;
                             case R.id.qr_view:
-                                fragmentClass = HomeFragment.class;
+                                fragmentClass = QRScannerFragment.class;
                                 break;
                             case R.id.flashlight_view:
                                 fragmentClass = FlashlightFragment.class;
