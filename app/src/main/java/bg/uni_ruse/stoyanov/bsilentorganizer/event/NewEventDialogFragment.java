@@ -16,6 +16,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import bg.uni_ruse.stoyanov.bsilentorganizer.R;
 
 /**
@@ -25,7 +28,10 @@ import bg.uni_ruse.stoyanov.bsilentorganizer.R;
 public class NewEventDialogFragment extends DialogFragment
                                     implements DialogInterface.OnClickListener{
 
+    private String TAG = NewEventDialogFragment.class.getCanonicalName();
     private AlertDialog dialog;
+    private SimpleDateFormat hoursFormat = new SimpleDateFormat("HH", Locale.getDefault());
+    private SimpleDateFormat minutesFormat = new SimpleDateFormat("mm", Locale.getDefault());
 
     @SuppressLint("InflateParams")
     @NonNull
@@ -49,6 +55,15 @@ public class NewEventDialogFragment extends DialogFragment
         TimePicker timePicker = dialog.findViewById(R.id.eventTimePicker);
         timePicker.setIs24HourView(true);
 
+        if (getTargetRequestCode() == 2) {
+            Bundle bundle = getArguments();
+            EditText dialogEventTitle = dialog.findViewById(R.id.dialog_event_title);
+            dialogEventTitle.setText(bundle.getString("eventTitle"));
+            CheckBox importantCheckBox = dialog.findViewById(R.id.importantCheckBox);
+            importantCheckBox.setChecked(bundle.getBoolean("eventImportant"));
+        }
+
+        Log.d(TAG, "NewEventDialogInflated");
         return dialog;
     }
 
@@ -68,6 +83,9 @@ public class NewEventDialogFragment extends DialogFragment
         intent.putExtra("eventTitle", eventTitle);
         intent.putExtra("eventImportant", isImportant);
         intent.putExtra("eventTimestamp", timestamp);
+
         getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+
+        Log.d(TAG, "NewEventDialogClosed");
     }
 }

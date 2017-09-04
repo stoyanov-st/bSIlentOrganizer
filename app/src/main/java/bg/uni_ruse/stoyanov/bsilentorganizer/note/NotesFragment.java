@@ -115,5 +115,4 @@ public class NotesFragment extends Fragment
         newFragment.setTargetFragment(this, 2);
         newFragment.show(getFragmentManager(), "ViewNote");
     }
-
 }

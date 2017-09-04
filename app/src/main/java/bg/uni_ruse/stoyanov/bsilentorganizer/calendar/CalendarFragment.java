@@ -110,7 +110,15 @@ public class CalendarFragment extends Fragment implements AdapterView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+        Event event = (Event) adapterView.getItemAtPosition(i);
+        Bundle bundle = new Bundle();
+        bundle.putString("eventTitle", event.getEventName());
+        bundle.putLong("eventTimestamp", event.getTimestamp());
+        bundle.putBoolean("eventImportant", event.getImportanceFlag());
+        DialogFragment newFragment = new NewEventDialogFragment();
+        newFragment.setArguments(bundle);
+        newFragment.setTargetFragment(this, 2);
+        newFragment.show(getFragmentManager(), "ViewEvent");
     }
 
     @Override
