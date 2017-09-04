@@ -67,5 +67,8 @@
     <string name="new_note">New Note</string>
     <string name="edit_note">Edit Note</string>
     <string name="scan_your_qr_code">Scan your QR code</string>
+    <string name="important">Important?</string>
+    <string name="add_event">Add Event</string>
+    <string name="new_event">New Event</string>
 
 </resources>

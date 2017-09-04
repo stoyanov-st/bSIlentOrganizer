@@ -11,7 +11,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import bg.uni_ruse.stoyanov.bsilentorganizer.R;
 
@@ -42,7 +44,7 @@ public class NewNoteDialogFragment extends DialogFragment
                 });
         switch (getTargetRequestCode()) {
             case 1:
-                builder.setPositiveButton(R.string.add_note, this);
+                builder.setPositiveButton(R.string.add_note, null);
                 break;
             case 2:
                 builder.setPositiveButton(R.string.edit_note, this);
@@ -51,6 +53,30 @@ public class NewNoteDialogFragment extends DialogFragment
 
         dialog = builder.show();
 
+        if (getTargetRequestCode() == 1) {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    EditText dialogTitle = dialog.findViewById(R.id.dialog_title);
+                    EditText dialogText = dialog.findViewById(R.id.dialog_text);
+
+                    if (dialogTitle.getText().toString().length() != 0) {
+                        Intent intent = new Intent();
+                        String noteTitle = dialogTitle.getText().toString();
+                        String noteText = dialogText.getText().toString();
+
+                        intent.putExtra("noteTitle", noteTitle);
+                        intent.putExtra("noteText", noteText);
+                        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+
+                        dismiss();
+                    }
+                    else if (dialogTitle.getText().toString().length() == 0){
+                        Toast.makeText(getContext(), "Enter Title!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
         if (getTargetRequestCode() == 2) {
             Bundle bundle = getArguments();
             EditText dialogTitle = dialog.findViewById(R.id.dialog_title);
@@ -59,6 +85,7 @@ public class NewNoteDialogFragment extends DialogFragment
             EditText dialogText = dialog.findViewById(R.id.dialog_text);
             dialogText.setText(bundle.getString("noteText"));
         }
+
         return dialog;
     }
 

@@ -6,13 +6,11 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -44,17 +42,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import bg.uni_ruse.stoyanov.bsilentorganizer.note.NewNoteDialogFragment;
+import bg.uni_ruse.stoyanov.bsilentorganizer.calendar.CalendarFragment;
+import bg.uni_ruse.stoyanov.bsilentorganizer.flashlight.FlashlightFragment;
 import bg.uni_ruse.stoyanov.bsilentorganizer.note.NotesFragment;
+import bg.uni_ruse.stoyanov.bsilentorganizer.qr.QRScannerFragment;
 import bg.uni_ruse.stoyanov.bsilentorganizer.user.User;
 import bg.uni_ruse.stoyanov.bsilentorganizer.user.UserDao;
 
 import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.SocialId.getUserId;
 
-public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener,
-        FlashlightFragment.OnFragmentInteractionListener,
-        NotesFragment.OnFragmentInteractionListener,
-        QRScannerFragment.OnFragmentInteractionListener{
+public class HomeActivity extends AppCompatActivity {
 
     private UserDao userDao;
     private Toolbar toolbar;
@@ -65,6 +62,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
     private User user;
     private View headerView;
     private GoogleApiClient mGoogleApiClient;
+    private boolean backPressed = false;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -81,7 +79,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
 
         //Load Home Fragment
         fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.frameContent, HomeFragment.newInstance()).commit();
+        fragmentManager.beginTransaction().replace(R.id.frameContent, new HomeFragment()).commit();
 
         // Toolbar and NavigationDrawer Setup
         toolbar = findViewById(R.id.toolbar);
@@ -135,7 +133,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
                                 fragmentClass = NotesFragment.class;
                                 break;
                             case R.id.calendar_view:
-                                fragmentClass = HomeFragment.class;
+                                fragmentClass = CalendarFragment.class;
                                 break;
                             case R.id.qr_view:
                                 fragmentClass = QRScannerFragment.class;
@@ -301,14 +299,16 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnFr
 
     @Override
     public void onBackPressed() {
+
         if (drawerLayout.isDrawerOpen(drawerList)) {
             drawerLayout.closeDrawers();
         }
-        else super.onBackPressed();
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
+        else if (!backPressed){
+            Toast.makeText(getApplicationContext(), "Press Back button again to exit.", Toast.LENGTH_SHORT).show();
+            backPressed = true;
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 }

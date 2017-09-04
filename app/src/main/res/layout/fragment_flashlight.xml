@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_centerVertical="true"
     android:background="@color/colorBackground"
-    tools:context="bg.uni_ruse.stoyanov.bsilentorganizer.FlashlightFragment">
+    tools:context="bg.uni_ruse.stoyanov.bsilentorganizer.flashlight.FlashlightFragment">
 
     <ToggleButton
         android:id="@+id/flash_light_toggle"

@@ -1,9 +1,8 @@
-package bg.uni_ruse.stoyanov.bsilentorganizer;
+package bg.uni_ruse.stoyanov.bsilentorganizer.flashlight;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.hardware.Camera;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,37 +13,24 @@ import android.widget.Switch;
 import android.widget.ToggleButton;
 
 import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.CheckCameraPermissions.checkPermission;
-import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.KeepScreenOn.clearKeepScreenOnFlag;
 import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.KeepScreenOn.setKeepScreenOnFlag;
 
 import java.io.IOException;
 
+import bg.uni_ruse.stoyanov.bsilentorganizer.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FlashlightFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FlashlightFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 @SuppressWarnings("deprecation")
 public class FlashlightFragment extends Fragment {
 
     ToggleButton flashToggle;
     private Camera camera;
     private Camera.Parameters cameraParameters;
-    private OnFragmentInteractionListener mListener;
     private boolean backgroundUse = false;
 
     public FlashlightFragment() {
         // Required empty public constructor
     }
-
-    public static FlashlightFragment newInstance() {
-        return new FlashlightFragment();
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +38,6 @@ public class FlashlightFragment extends Fragment {
         setKeepScreenOnFlag(getActivity());
         checkPermission(getActivity());
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,20 +59,19 @@ public class FlashlightFragment extends Fragment {
                             turnFlashOn();
                         }
                     }).start();
-                }
-                else {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    turnFlashOff();
-                                } catch (IOException e) {
-                                    camera.release();
-                                    camera = Camera.open();
-                                    e.printStackTrace();
-                                }
+                } else {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                turnFlashOff();
+                            } catch (IOException e) {
+                                camera.release();
+                                camera = Camera.open();
+                                e.printStackTrace();
                             }
-                        }).start();
+                        }
+                    }).start();
                 }
             }
         });
@@ -102,24 +86,6 @@ public class FlashlightFragment extends Fragment {
         backgroundModeSwitch.setChecked(getSavedBackgroundMode());
 
         return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-        clearKeepScreenOnFlag(getActivity());
     }
 
     @Override
@@ -147,7 +113,7 @@ public class FlashlightFragment extends Fragment {
             camera.release();
     }
 
-    private void turnFlashOn(){
+    private void turnFlashOn() {
         camera = Camera.open();
         cameraParameters = camera.getParameters();
         cameraParameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
@@ -170,19 +136,5 @@ public class FlashlightFragment extends Fragment {
                 .getSharedPreferences("flashLightPrefs", Context.MODE_PRIVATE);
 
         return sharedPreferences.getBoolean("backgroundMode", false);
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
     }
 }

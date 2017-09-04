@@ -26,33 +26,16 @@ import bg.uni_ruse.stoyanov.bsilentorganizer.R;
 import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.SocialId.getUserId;
 import static bg.uni_ruse.stoyanov.bsilentorganizer.note.NoteList.getNotes;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link NotesFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link NotesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class NotesFragment extends Fragment
                             implements AdapterView.OnItemClickListener{
 
-    private OnFragmentInteractionListener onFragmentInteractionListener;
     private ArrayList<Note> noteList;
     private ArrayAdapter<Note> arrayAdapter;
     private NoteDao noteDao;
 
     public NotesFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     * @return A new instance of fragment NotesFragment.
-     */
-    public static NotesFragment newInstance() {
-       return new NotesFragment();
     }
 
     @Override
@@ -86,23 +69,6 @@ public class NotesFragment extends Fragment
         noteList.addAll(getNotes(getContext()));
 
         return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            onFragmentInteractionListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        onFragmentInteractionListener = null;
     }
 
     public void showNewNoteDialog() {
@@ -150,17 +116,4 @@ public class NotesFragment extends Fragment
         newFragment.show(getFragmentManager(), "ViewNote");
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
 }

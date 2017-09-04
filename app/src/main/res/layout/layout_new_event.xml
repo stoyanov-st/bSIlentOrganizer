@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/dialog_layout"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/new_event_fragment"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/AppTheme">
 
     <EditText
-        android:id="@+id/dialog_title"
+        android:id="@+id/dialog_event_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -17,14 +18,19 @@
         android:textColorHint="@color/colorBlack"
         tools:ignore="LabelFor" />
 
-    <EditText
-        android:id="@+id/dialog_text"
+    <CheckBox
+        android:id="@+id/importantCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/important"
+        android:textSize="16sp"
+        android:textColor="@color/colorBlack"/>
+
+    <TimePicker
+        android:id="@+id/eventTimePicker"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginTop="5dp"
-        android:textAlignment="center"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        tools:ignore="LabelFor" />
+        android:layout_height="wrap_content"
+        android:timePickerMode="spinner"/>
 
 </LinearLayout>
