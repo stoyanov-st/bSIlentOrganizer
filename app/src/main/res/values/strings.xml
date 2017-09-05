@@ -70,5 +70,6 @@
     <string name="important">Important?</string>
     <string name="add_event">Add Event</string>
     <string name="new_event">New Event</string>
+    <string name="edit_event">Edit Event</string>
 
 </resources>

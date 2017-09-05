@@ -9,9 +9,11 @@ import org.greenrobot.greendao.annotation.Unique;
 
 import java.util.List;
 
+import bg.uni_ruse.stoyanov.bsilentorganizer.event.Event;
 import bg.uni_ruse.stoyanov.bsilentorganizer.note.Note;
 import org.greenrobot.greendao.DaoException;
 import bg.uni_ruse.stoyanov.bsilentorganizer.note.NoteDao;
+import bg.uni_ruse.stoyanov.bsilentorganizer.event.EventDao;
 
 /**
  * Created by stoyanovst on 11.07.17.
@@ -29,6 +31,11 @@ public class User {
             @JoinProperty(name = "socialId", referencedName = "userSocialId")
     })
     private List<Note> notes;
+
+    @ToMany(joinProperties = {
+            @JoinProperty(name = "socialId", referencedName = "userSocialId")
+    })
+    private List<Event> events;
 
     private String firstName;
     private String lastName;
@@ -202,6 +209,34 @@ public class User {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.update(this);
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 2090355362)
+    public List<Event> getEvents() {
+        if (events == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            EventDao targetDao = daoSession.getEventDao();
+            List<Event> eventsNew = targetDao._queryUser_Events(socialId);
+            synchronized (this) {
+                if (events == null) {
+                    events = eventsNew;
+                }
+            }
+        }
+        return events;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 1830105409)
+    public synchronized void resetEvents() {
+        events = null;
     }
 
     /** called by internal mechanisms, do not call yourself. */

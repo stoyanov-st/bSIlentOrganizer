@@ -21,8 +21,6 @@ import bg.uni_ruse.stoyanov.bsilentorganizer.R;
 
 public class EventAdapter extends ArrayAdapter<Event> {
 
-    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-
     public EventAdapter(Context context, ArrayList<Event> events) {
         super(context, 0, events);
     }
@@ -43,7 +41,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
         if (event != null) {
             eventTitle.setText(event.getEventName());
-            eventDate.setText(simpleDateFormat.format(event.getTimestamp()));
+            eventDate.setText(event.getTimestamp());
 
             if (event.getImportanceFlag()) {
                 flagView.setVisibility(View.VISIBLE);

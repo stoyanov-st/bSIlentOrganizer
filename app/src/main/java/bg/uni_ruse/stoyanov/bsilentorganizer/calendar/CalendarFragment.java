@@ -31,6 +31,7 @@ import bg.uni_ruse.stoyanov.bsilentorganizer.event.EventDao;
 import bg.uni_ruse.stoyanov.bsilentorganizer.event.NewEventDialogFragment;
 
 import static bg.uni_ruse.stoyanov.bsilentorganizer.event.EventList.getEventsByDate;
+import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.SocialId.getUserId;
 
 
 public class CalendarFragment extends Fragment implements AdapterView.OnItemClickListener, CalendarView.OnDateChangeListener, View.OnClickListener {
@@ -41,7 +42,7 @@ public class CalendarFragment extends Fragment implements AdapterView.OnItemClic
     private EventAdapter arrayAdapter;
     private TextView selectedDateTextView;
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-    private Long currentDate;
+    private String currentDate;
 
     public CalendarFragment() {
         // Required empty public constructor
@@ -66,10 +67,10 @@ public class CalendarFragment extends Fragment implements AdapterView.OnItemClic
         CalendarView calendarView = view.findViewById(R.id.calendarView);
         calendarView.setOnDateChangeListener(this);
 
-        currentDate = calendarView.getDate();
+        currentDate = simpleDateFormat.format(calendarView.getDate());
 
         selectedDateTextView = view.findViewById(R.id.selectedDate);
-        selectedDateTextView.setText(simpleDateFormat.format(currentDate));
+        selectedDateTextView.setText(currentDate);
 
         ListView listView = view.findViewById(R.id.eventList);
         eventList = new ArrayList<>();
@@ -77,7 +78,7 @@ public class CalendarFragment extends Fragment implements AdapterView.OnItemClic
         listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(this);
 
-        eventList.addAll(getEventsByDate(currentDate));
+        eventList.addAll(getEventsByDate(getContext(), currentDate));
 
         return view;
     }
@@ -92,9 +93,10 @@ public class CalendarFragment extends Fragment implements AdapterView.OnItemClic
                 Long eventId = null;
                 String eventTitle = data.getStringExtra("eventTitle");
                 boolean isImportant = data.getBooleanExtra("eventImportant", false);
-                Long timestamp = data.getLongExtra("eventTimestamp", 0);
+                String timestamp = data.getStringExtra("eventTimestamp");
 
                 Event event = new Event(eventId,
+                        getUserId(getContext()),
                         eventTitle,
                         currentDate,
                         timestamp,
@@ -102,7 +104,7 @@ public class CalendarFragment extends Fragment implements AdapterView.OnItemClic
 
                 eventDao.insertOrReplace(event);
 
-                getCurrentEvents();
+                getCurrentEvents(currentDate);
 
             }
         }
@@ -113,7 +115,7 @@ public class CalendarFragment extends Fragment implements AdapterView.OnItemClic
         Event event = (Event) adapterView.getItemAtPosition(i);
         Bundle bundle = new Bundle();
         bundle.putString("eventTitle", event.getEventName());
-        bundle.putLong("eventTimestamp", event.getTimestamp());
+        bundle.putString("eventTimestamp", event.getTimestamp());
         bundle.putBoolean("eventImportant", event.getImportanceFlag());
         DialogFragment newFragment = new NewEventDialogFragment();
         newFragment.setArguments(bundle);
@@ -123,12 +125,12 @@ public class CalendarFragment extends Fragment implements AdapterView.OnItemClic
 
     @Override
     public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-        arrayAdapter.addAll(getEventsByDate(calendarView.getDate()));
+        currentDate = simpleDateFormat.format(calendarView.getDate());
+        arrayAdapter.addAll(getEventsByDate(getContext(), currentDate));
         selectedDateTextView = getView().findViewById(R.id.selectedDate);
-        currentDate = calendarView.getDate();
-        selectedDateTextView.setText(simpleDateFormat.format(currentDate));
+        selectedDateTextView.setText(currentDate);
 
-        getCurrentEvents();
+        getCurrentEvents(currentDate);
     }
 
     @Override
@@ -138,9 +140,9 @@ public class CalendarFragment extends Fragment implements AdapterView.OnItemClic
         newFragment.show(getFragmentManager(), "NewEvent");
     }
 
-    private void getCurrentEvents() {
+    private void getCurrentEvents(String date) {
         arrayAdapter.clear();
-        arrayAdapter.addAll(getEventsByDate(currentDate));
+        arrayAdapter.addAll(getEventsByDate(getContext(), date));
         arrayAdapter.notifyDataSetChanged();
     }
 }

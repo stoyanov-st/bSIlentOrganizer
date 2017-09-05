@@ -30,8 +30,6 @@ public class NewEventDialogFragment extends DialogFragment
 
     private String TAG = NewEventDialogFragment.class.getCanonicalName();
     private AlertDialog dialog;
-    private SimpleDateFormat hoursFormat = new SimpleDateFormat("HH", Locale.getDefault());
-    private SimpleDateFormat minutesFormat = new SimpleDateFormat("mm", Locale.getDefault());
 
     @SuppressLint("InflateParams")
     @NonNull
@@ -42,13 +40,21 @@ public class NewEventDialogFragment extends DialogFragment
 
         builder.setView(inflater.inflate(R.layout.layout_new_event, null))
                 .setTitle(R.string.new_event)
-                .setPositiveButton(R.string.add_event, this)
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
                     }
                 });
+
+        switch (getTargetRequestCode()) {
+            case 1:
+                builder.setPositiveButton(R.string.add_event, this);
+                break;
+            case 2:
+                builder.setPositiveButton(R.string.edit_event, this);
+                break;
+        }
 
         dialog = builder.show();
 
@@ -67,7 +73,7 @@ public class NewEventDialogFragment extends DialogFragment
         return dialog;
     }
 
-
+    @Deprecated
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
         EditText dialogEventTitle = dialog.findViewById(R.id.dialog_event_title);
@@ -77,8 +83,8 @@ public class NewEventDialogFragment extends DialogFragment
         Intent intent = new Intent();
         String eventTitle = dialogEventTitle.getText().toString();
         boolean isImportant = importantCheckBox.isChecked();
-        Long timestamp = eventTimePicker.getDrawingTime();
 
+        String timestamp = eventTimePicker.getCurrentHour() + ":" + eventTimePicker.getCurrentMinute();
 
         intent.putExtra("eventTitle", eventTitle);
         intent.putExtra("eventImportant", isImportant);
