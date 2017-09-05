@@ -1,6 +1,7 @@
 package bg.uni_ruse.stoyanov.bsilentorganizer.profile;
 
-import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -15,10 +16,13 @@ import com.facebook.login.widget.ProfilePictureView;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import bg.uni_ruse.stoyanov.bsilentorganizer.MainActivity;
 import bg.uni_ruse.stoyanov.bsilentorganizer.R;
+import bg.uni_ruse.stoyanov.bsilentorganizer.helpers.DownloadGProfilePicture;
 import bg.uni_ruse.stoyanov.bsilentorganizer.user.User;
 import bg.uni_ruse.stoyanov.bsilentorganizer.user.UserDao;
 
@@ -58,6 +62,11 @@ public class ProfileFragment extends Fragment {
         user = users.get(0);
 
         if (user.isGoogleProfile()) {
+            try {
+                new DownloadGProfilePicture(view).execute(new URL(user.getImageUrl()));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
             ImageView googleImageView = getActivity().findViewById(R.id.g_profile_picture);
             googleImageView.setVisibility(View.GONE);
             ImageView gImageView = view.findViewById(R.id.g_picture);
@@ -74,8 +83,14 @@ public class ProfileFragment extends Fragment {
 
         TextView userName = view.findViewById(R.id.username_label);
         userName.setText(user.getFullName());
-        //TextView emailTextView = view.findViewById(R.id.user_profile_link);
-        //emailTextView.setText(user.getEmail());
+        TextView emailTextView = view.findViewById(R.id.profile_link);
+        emailTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(user.getEmail()));
+                startActivity(intent);
+            }
+        });
 
         return view;
     }

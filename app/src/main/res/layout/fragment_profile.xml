@@ -19,7 +19,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="95dp"
         android:drawableStart="@drawable/ic_share_black_25dp"
-        android:text="@string/app_name"
+        android:text="@string/profile_link"
         android:textColor="@color/colorBlack"
         android:fontFamily="sans-serif-light"
         android:textSize="28sp" />

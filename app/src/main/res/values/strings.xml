@@ -73,5 +73,6 @@
     <string name="edit_event">Edit Event</string>
     <string name="profilepicture">ProfilePicture</string>
     <string name="about_bsilent">About bSilent</string>
+    <string name="profile_link">Link to profile</string>
 
 </resources>

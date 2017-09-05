@@ -1,12 +1,8 @@
 package bg.uni_ruse.stoyanov.bsilentorganizer;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -21,7 +17,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,16 +29,13 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
 import bg.uni_ruse.stoyanov.bsilentorganizer.calendar.CalendarFragment;
 import bg.uni_ruse.stoyanov.bsilentorganizer.flashlight.FlashlightFragment;
+import bg.uni_ruse.stoyanov.bsilentorganizer.helpers.DownloadGProfilePicture;
 import bg.uni_ruse.stoyanov.bsilentorganizer.note.NotesFragment;
 import bg.uni_ruse.stoyanov.bsilentorganizer.profile.ProfileFragment;
 import bg.uni_ruse.stoyanov.bsilentorganizer.qr.QRScannerFragment;
@@ -213,48 +205,6 @@ public class HomeActivity extends AppCompatActivity {
                 .apply();
         Toast.makeText(getApplicationContext(), R.string.logout, Toast.LENGTH_SHORT).show();
         finish();
-    }
-
-    private static class DownloadGProfilePicture extends AsyncTask<URL, Void, Bitmap> {
-        Object activity;
-
-        DownloadGProfilePicture(Activity activity) {
-             this.activity = activity;
-        }
-
-        private Object getActivity() {
-            return activity;
-        }
-
-        @Override
-        protected Bitmap doInBackground(URL... urls) {
-            Bitmap googleProfilePicture = null;
-            try {
-                HttpURLConnection connection = (HttpURLConnection) urls[0].openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream inputStream = connection.getInputStream();
-                googleProfilePicture = BitmapFactory.decodeStream(inputStream);
-                connection.disconnect();
-            } catch ( IOException ioe) {
-                ioe.printStackTrace();
-            }
-
-            return googleProfilePicture;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            Activity mActivity = (Activity) getActivity();
-            ImageView googleImageView = mActivity.findViewById(R.id.g_profile_picture);
-            googleImageView.setVisibility(View.VISIBLE);
-            googleImageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 50, 55, false));
-            ImageView googleNavImageView = mActivity.findViewById(R.id.g_profile_picture_nav);
-            googleNavImageView.setVisibility(View.VISIBLE);
-            googleNavImageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 90, 90, false));
-            ImageView googleProfileImageView = mActivity.findViewById(R.id.g_picture);
-            googleProfileImageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 200, 200, false));
-        }
     }
 
     @Override

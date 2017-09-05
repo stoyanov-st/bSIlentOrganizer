@@ -91,8 +91,8 @@ public class MainActivity extends AppCompatActivity implements
                         profile.getFirstName(),
                         profile.getLastName(),
                         profile.getName(),
-                        profile.getLinkUri().toString(),
                         profile.getProfilePictureUri(50,50).toString(),
+                        profile.getLinkUri().toString(),
                         false));
                 handleSignInResult(new Callable<Void>() {
                    @Override
@@ -269,8 +269,8 @@ public class MainActivity extends AppCompatActivity implements
                         acct.getGivenName(),
                         acct.getFamilyName(),
                         acct.getDisplayName(),
-                        acct.getEmail(),
                         acct.getPhotoUrl().toString(),
+                        acct.getEmail(),
                         true));
                 handleSignInResult(new Callable<Void>() {
                     @Override
