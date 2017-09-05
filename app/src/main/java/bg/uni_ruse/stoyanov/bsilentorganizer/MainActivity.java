@@ -86,10 +86,12 @@ public class MainActivity extends AppCompatActivity implements
                 storeUserId(profile.getId());
                 userDao = getDaoSession().getUserDao();
                 userDao.insertOrReplace(
-                new User(profile.getId(),
+                new User(null,
+                        profile.getId(),
                         profile.getFirstName(),
                         profile.getLastName(),
                         profile.getName(),
+                        profile.getLinkUri().toString(),
                         profile.getProfilePictureUri(50,50).toString(),
                         false));
                 handleSignInResult(new Callable<Void>() {
@@ -261,10 +263,13 @@ public class MainActivity extends AppCompatActivity implements
                 storeUserId(acct.getId());
                 userDao = getDaoSession().getUserDao();
                 userDao.insert(
-                new User(acct.getId(),
+                new User(
+                        null,
+                        acct.getId(),
                         acct.getGivenName(),
                         acct.getFamilyName(),
                         acct.getDisplayName(),
+                        acct.getEmail(),
                         acct.getPhotoUrl().toString(),
                         true));
                 handleSignInResult(new Callable<Void>() {

@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context="bg.uni_ruse.stoyanov.bsilentorganizer.profile.ProfileFragment" >
+
+    <include
+       layout="@layout/fragment_profile_header"
+        android:layout_height="230dp"
+        android:layout_width="match_parent"
+        android:id="@+id/include" />
+
+    <TextView
+        android:id="@+id/profile_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/include"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="95dp"
+        android:drawableStart="@drawable/ic_share_black_25dp"
+        android:text="@string/app_name"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="sans-serif-light"
+        android:textSize="28sp" />
+
+    <TextView
+        android:id="@+id/about_app"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/profile_link"
+        android:layout_below="@+id/profile_link"
+        android:layout_marginTop="20dp"
+        android:drawableStart="@drawable/ic_bsilent_black_25dp"
+        android:text="@string/about_bsilent"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="sans-serif-light"
+        android:textSize="28sp" />
+
+    <TextView
+        android:id="@+id/profile_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/about_app"
+        android:layout_below="@+id/about_app"
+        android:layout_marginTop="5dp"
+        android:drawableStart="@drawable/ic_exit_to_app_black_25dp"
+        android:text="@string/logout"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="sans-serif-light"
+        android:textSize="28sp" />
+</RelativeLayout>

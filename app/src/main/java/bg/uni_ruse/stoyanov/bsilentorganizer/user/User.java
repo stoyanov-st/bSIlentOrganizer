@@ -41,6 +41,7 @@ public class User {
     private String lastName;
     private String fullName;
     private String imageUrl;
+    private String email;
     private Boolean isGoogleProfile;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -97,24 +98,16 @@ public class User {
         this.isGoogleProfile = isGoogleProfile;
     }
 
-   public User(String socialId, String firstName, String lastName, String fullName, String imageUrl, Boolean accType) {
-        this.socialId = socialId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.fullName = fullName;
-        this.imageUrl = imageUrl;
-        this.isGoogleProfile = accType;
-    }
-
-    @Generated(hash = 704237786)
-    public User(Long userId, String socialId, String firstName, String lastName, String fullName,
-            String imageUrl, Boolean isGoogleProfile) {
+    @Generated(hash = 1035550940)
+    public User(Long userId, String socialId, String firstName, String lastName, String fullName, String imageUrl,
+            String email, Boolean isGoogleProfile) {
         this.userId = userId;
         this.socialId = socialId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.fullName = fullName;
         this.imageUrl = imageUrl;
+        this.email = email;
         this.isGoogleProfile = isGoogleProfile;
     }
 
@@ -237,6 +230,14 @@ public class User {
     @Generated(hash = 1830105409)
     public synchronized void resetEvents() {
         events = null;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /** called by internal mechanisms, do not call yourself. */

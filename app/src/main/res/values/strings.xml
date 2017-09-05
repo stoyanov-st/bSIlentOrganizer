@@ -71,5 +71,7 @@
     <string name="add_event">Add Event</string>
     <string name="new_event">New Event</string>
     <string name="edit_event">Edit Event</string>
+    <string name="profilepicture">ProfilePicture</string>
+    <string name="about_bsilent">About bSilent</string>
 
 </resources>

@@ -45,6 +45,7 @@ import java.util.List;
 import bg.uni_ruse.stoyanov.bsilentorganizer.calendar.CalendarFragment;
 import bg.uni_ruse.stoyanov.bsilentorganizer.flashlight.FlashlightFragment;
 import bg.uni_ruse.stoyanov.bsilentorganizer.note.NotesFragment;
+import bg.uni_ruse.stoyanov.bsilentorganizer.profile.ProfileFragment;
 import bg.uni_ruse.stoyanov.bsilentorganizer.qr.QRScannerFragment;
 import bg.uni_ruse.stoyanov.bsilentorganizer.user.User;
 import bg.uni_ruse.stoyanov.bsilentorganizer.user.UserDao;
@@ -124,7 +125,7 @@ public class HomeActivity extends AppCompatActivity {
                                 fragmentClass = HomeFragment.class;
                                 break;
                             case R.id.profile_view:
-                                fragmentClass = HomeFragment.class;
+                                fragmentClass = ProfileFragment.class;
                                 break;
                             case R.id.silent_mode_view:
                                 fragmentClass = HomeFragment.class;
@@ -190,6 +191,7 @@ public class HomeActivity extends AppCompatActivity {
            ProfilePictureView profilePictureView = findViewById(R.id.fb_profile_picture);
            profilePictureView.setVisibility(View.VISIBLE);
            profilePictureView.setProfileId(userId);
+
        }
     }
 
@@ -250,6 +252,8 @@ public class HomeActivity extends AppCompatActivity {
             ImageView googleNavImageView = mActivity.findViewById(R.id.g_profile_picture_nav);
             googleNavImageView.setVisibility(View.VISIBLE);
             googleNavImageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 90, 90, false));
+            ImageView googleProfileImageView = mActivity.findViewById(R.id.g_picture);
+            googleProfileImageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 200, 200, false));
         }
     }
 
