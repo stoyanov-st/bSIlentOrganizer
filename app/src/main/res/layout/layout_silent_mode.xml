@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:scrollbars="vertical">
+
+    <TabHost
+        android:id="@+id/time_picker_tab"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/start"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TimePicker
+                        android:id="@+id/start_time_picker"
+                        android:timePickerMode="spinner"
+                        android:layout_width="match_parent"
+                        android:tag="tab0"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/end"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TimePicker
+                        android:id="@+id/end_time_picker"
+                        android:timePickerMode="spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+
+    <ToggleButton
+       android:id="@+id/mon_toggle"
+       android:layout_width="25dp"
+       android:layout_height="25dp"
+       android:layout_marginTop="15dp"
+       android:layout_marginStart="50dp"
+       android:layout_marginEnd="5dp"
+       android:layout_below="@id/time_picker_tab"
+       android:background="@drawable/weekdays_toggle_states"
+       android:textColor="@color/colorBlack"
+       android:textOff="@string/m"
+       android:textOn="@string/m"/>
+    <ToggleButton
+        android:id="@+id/tue_toggle"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_toEndOf="@id/mon_toggle"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:layout_below="@id/time_picker_tab"
+        android:background="@drawable/weekdays_toggle_states"
+        android:textColor="@color/colorBlack"
+        android:textOff="@string/t"
+        android:textOn="@string/t"/>
+    <ToggleButton
+        android:id="@+id/wed_toggle"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_toEndOf="@id/tue_toggle"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:layout_below="@id/time_picker_tab"
+        android:background="@drawable/weekdays_toggle_states"
+        android:textColor="@color/colorBlack"
+        android:textOff="@string/w"
+        android:textOn="@string/w"/>
+    <ToggleButton
+        android:id="@+id/thu_toggle"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_toEndOf="@id/wed_toggle"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:layout_below="@id/time_picker_tab"
+        android:background="@drawable/weekdays_toggle_states"
+        android:textColor="@color/colorBlack"
+        android:textOff="@string/t"
+        android:textOn="@string/t"/>
+    <ToggleButton
+        android:id="@+id/fri_toggle"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_toEndOf="@id/thu_toggle"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:layout_below="@id/time_picker_tab"
+        android:background="@drawable/weekdays_toggle_states"
+        android:textColor="@color/colorBlack"
+        android:textOff="@string/f"
+        android:textOn="@string/f"/>
+    <ToggleButton
+        android:id="@+id/sat_toggle"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_toEndOf="@id/fri_toggle"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:layout_below="@id/time_picker_tab"
+        android:background="@drawable/weekdays_toggle_states"
+        android:textColor="@color/colorBlack"
+        android:textOff="@string/s"
+        android:textOn="@string/s"/>
+    <ToggleButton
+        android:id="@+id/sun_toggle"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@id/sat_toggle"
+        android:layout_below="@id/time_picker_tab"
+        android:background="@drawable/weekdays_toggle_states"
+        android:textColor="@color/colorBlack"
+        android:textOff="@string/s"
+        android:textOn="@string/s"/>
+
+    <Switch
+        android:id="@+id/vibrationModeSwitch"
+        android:layout_below="@id/mon_toggle"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/use_vibration_mode"
+        android:fontFamily="sans-serif-light"
+        android:textSize="@dimen/label_text_size"
+        android:textColor="@color/colorBlack"/>
+
+</RelativeLayout>

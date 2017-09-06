@@ -14,6 +14,8 @@ import bg.uni_ruse.stoyanov.bsilentorganizer.note.Note;
 import org.greenrobot.greendao.DaoException;
 import bg.uni_ruse.stoyanov.bsilentorganizer.note.NoteDao;
 import bg.uni_ruse.stoyanov.bsilentorganizer.event.EventDao;
+import bg.uni_ruse.stoyanov.bsilentorganizer.silent_manager.SilentModel;
+import bg.uni_ruse.stoyanov.bsilentorganizer.silent_manager.SilentModelDao;
 
 /**
  * Created by stoyanovst on 11.07.17.
@@ -36,6 +38,12 @@ public class User {
             @JoinProperty(name = "socialId", referencedName = "userSocialId")
     })
     private List<Event> events;
+
+    @ToMany(joinProperties = {
+            @JoinProperty(name = "socialId", referencedName = "userSocialId")
+    })
+    private List<SilentModel> silentModels;
+
 
     private String firstName;
     private String lastName;
@@ -238,6 +246,34 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 696214492)
+    public List<SilentModel> getSilentModels() {
+        if (silentModels == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            SilentModelDao targetDao = daoSession.getSilentModelDao();
+            List<SilentModel> silentModelsNew = targetDao._queryUser_SilentModels(socialId);
+            synchronized (this) {
+                if (silentModels == null) {
+                    silentModels = silentModelsNew;
+                }
+            }
+        }
+        return silentModels;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 812778666)
+    public synchronized void resetSilentModels() {
+        silentModels = null;
     }
 
     /** called by internal mechanisms, do not call yourself. */

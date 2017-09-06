@@ -11,7 +11,6 @@
         android:layout_marginStart="40dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@id/delete_note"
         android:textSize="@dimen/input_box_text_size"
         android:maxLength="36"
         android:textColor="@color/colorBlack"/>
@@ -22,18 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/note_title"
-        android:layout_alignStart="@id/delete_note"
         android:layout_marginStart="40dp"
         android:textColor="@color/colorSubtitle"
         android:textSize="@dimen/dont_have_acc_label_text_size" />
 
-    <Button
-        android:id="@+id/delete_note"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:focusable="false"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="9dp"
-        android:background="@drawable/ic_clear_black_10dp" />
 </RelativeLayout>

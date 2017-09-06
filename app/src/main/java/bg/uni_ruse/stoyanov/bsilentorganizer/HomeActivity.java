@@ -39,9 +39,11 @@ import bg.uni_ruse.stoyanov.bsilentorganizer.helpers.DownloadGProfilePicture;
 import bg.uni_ruse.stoyanov.bsilentorganizer.note.NotesFragment;
 import bg.uni_ruse.stoyanov.bsilentorganizer.profile.ProfileFragment;
 import bg.uni_ruse.stoyanov.bsilentorganizer.qr.QRScannerFragment;
+import bg.uni_ruse.stoyanov.bsilentorganizer.silent_manager.SilentManagerFragment;
 import bg.uni_ruse.stoyanov.bsilentorganizer.user.User;
 import bg.uni_ruse.stoyanov.bsilentorganizer.user.UserDao;
 
+import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.RedirectMainActivity.goToMainActivity;
 import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.SocialId.getUserId;
 
 public class HomeActivity extends AppCompatActivity {
@@ -120,7 +122,7 @@ public class HomeActivity extends AppCompatActivity {
                                 fragmentClass = ProfileFragment.class;
                                 break;
                             case R.id.silent_mode_view:
-                                fragmentClass = HomeFragment.class;
+                                fragmentClass = SilentManagerFragment.class;
                                 break;
                             case R.id.notes_view:
                                 fragmentClass = NotesFragment.class;
@@ -190,21 +192,10 @@ public class HomeActivity extends AppCompatActivity {
     private void logout() {
         if (user.isGoogleProfile()){
             Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient);
-            goToMainActivity();
         } else {
             LoginManager.getInstance().logOut();
-            goToMainActivity();
         }
-    }
-
-    private void goToMainActivity() {
-        startActivity(new Intent(this, MainActivity.class));
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        sharedPreferences.edit()
-                .clear()
-                .apply();
-        Toast.makeText(getApplicationContext(), R.string.logout, Toast.LENGTH_SHORT).show();
-        finish();
+        goToMainActivity(this);
     }
 
     @Override

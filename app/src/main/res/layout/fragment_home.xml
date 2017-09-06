@@ -18,16 +18,6 @@
         android:textAppearance="@android:style/TextAppearance"
         android:textColor="@color/colorBlack" />
 
-    <Switch
-        android:id="@+id/vibrationModeSwitch"
-        android:layout_below="@+id/switch1"
-        android:layout_width="@dimen/button_width"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="@string/use_vibration_mode"
-        android:fontFamily="sans-serif-light"
-        android:textSize="@dimen/label_text_size"
-        android:textColor="@color/colorBlack"/>
+
 
 </RelativeLayout>

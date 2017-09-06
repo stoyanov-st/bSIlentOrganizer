@@ -15,8 +15,9 @@ import android.widget.Switch;
 public class HomeFragment extends Fragment {
 
     private AudioManager audioManager;
+
+    private Switch silentSwitch;
     private int ringMode;
-    private Switch silentSwitch, vibrationModeSwitch;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -37,9 +38,9 @@ public class HomeFragment extends Fragment {
 
         //Silent mode toggle setup
         silentSwitch = view.findViewById(R.id.switch1);
-        vibrationModeSwitch = view.findViewById(R.id.vibrationModeSwitch);
 
         ringMode = getSavedRingMode();
+
         audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
 
         if(checkIfPhoneIsSilent()) {
@@ -57,41 +58,11 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        if (ringMode == AudioManager.RINGER_MODE_VIBRATE) {
-            vibrationModeSwitch.setChecked(true);
-        }
-        vibrationModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    ringMode = AudioManager.RINGER_MODE_VIBRATE;
-                    if (checkIfPhoneIsSilent()) {
-                        setPhoneSilent();
-                    }
-                }
-                else {
-                    ringMode = AudioManager.RINGER_MODE_SILENT;
-                    if (checkIfPhoneIsSilent()) {
-                        setPhoneSilent();
-                    }
-                }
-            }
-        });
+
 
         return view;
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        SharedPreferences sharedPreferences = getActivity().getApplicationContext()
-                .getSharedPreferences("silentModePrefs", Context.MODE_PRIVATE);
-
-        sharedPreferences.edit()
-                .putInt("ringMode", ringMode)
-                .apply();
-    }
 
     private boolean checkIfPhoneIsSilent() {
         return audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT || audioManager.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE;
@@ -107,5 +78,4 @@ public class HomeFragment extends Fragment {
 
         return sharedPreferences.getInt("ringMode", 0);
     }
-
 }
