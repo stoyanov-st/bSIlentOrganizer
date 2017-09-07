@@ -94,7 +94,6 @@ public class SilentManagerFragment extends Fragment {
 
                 silentModelDao.insertOrReplace(silentModel);
 
-
                 silentModelArrayAdapter.clear();
                 silentModelArrayAdapter.addAll(getSilentModels(getContext()));
                 silentModelArrayAdapter.notifyDataSetChanged();

@@ -4,6 +4,9 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by stoyanovst on 9/6/17.
  */
@@ -27,6 +30,33 @@ public class WeekDays {
         this.fri = fri;
         this.sat = sat;
         this.sun = sun;
+    }
+
+    public List<Integer> getSelectedDays() {
+        List<Integer> days = new ArrayList<>();
+        if (isMon()) {
+            days.add(2);
+        }
+        if (isTue()) {
+            days.add(3);
+        }
+        if (isWen()) {
+            days.add(4);
+        }
+        if (isThu()) {
+            days.add(5);
+        }
+        if (isFri()) {
+            days.add(6);
+        }
+        if (isSat()) {
+            days.add(7);
+        }
+        if (isSun()) {
+            days.add(1);
+        }
+
+        return days;
     }
 
     public String getDays() {
