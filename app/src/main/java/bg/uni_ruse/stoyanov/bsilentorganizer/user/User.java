@@ -16,6 +16,7 @@ import bg.uni_ruse.stoyanov.bsilentorganizer.note.NoteDao;
 import bg.uni_ruse.stoyanov.bsilentorganizer.event.EventDao;
 import bg.uni_ruse.stoyanov.bsilentorganizer.silent_manager.SilentModel;
 import bg.uni_ruse.stoyanov.bsilentorganizer.silent_manager.SilentModelDao;
+import bg.uni_ruse.stoyanov.bsilentorganizer.event.DaoSession;
 
 /**
  * Created by stoyanovst on 11.07.17.

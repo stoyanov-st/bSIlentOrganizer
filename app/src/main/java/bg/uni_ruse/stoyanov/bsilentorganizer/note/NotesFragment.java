@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import bg.uni_ruse.stoyanov.bsilentorganizer.MainActivity;
 import bg.uni_ruse.stoyanov.bsilentorganizer.R;
 
 import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.SocialId.getUserId;
+import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.ToolbarTitle.setToolbarTitle;
 import static bg.uni_ruse.stoyanov.bsilentorganizer.note.NoteList.getNotes;
 
 
@@ -50,6 +52,7 @@ public class NotesFragment extends Fragment
                              Bundle savedInstanceState) {
         //Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_notes, container, false);
+        setToolbarTitle((AppCompatActivity) getActivity(), R.string.notes);
 
         FloatingActionButton floatingActionButton = view.findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {

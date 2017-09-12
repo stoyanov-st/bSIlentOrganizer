@@ -33,8 +33,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
-import bg.uni_ruse.stoyanov.bsilentorganizer.user.DaoMaster;
-import bg.uni_ruse.stoyanov.bsilentorganizer.user.DaoSession;
+import bg.uni_ruse.stoyanov.bsilentorganizer.event.DaoMaster;
+import bg.uni_ruse.stoyanov.bsilentorganizer.event.DaoSession;
 import bg.uni_ruse.stoyanov.bsilentorganizer.user.User;
 import bg.uni_ruse.stoyanov.bsilentorganizer.user.UserDao;
 
@@ -42,6 +42,7 @@ import org.greenrobot.greendao.database.Database;
 
 import java.util.Arrays;
 import java.util.concurrent.Callable;
+import java.util.logging.Logger;
 
 
 public class MainActivity extends AppCompatActivity implements
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements
         checkIfUserIsLoggedIn();
 
         initDB();
+        Log.d(TAG, "DB init");
         //On Click listener for register button
         Button registerButton = (Button) findViewById(R.id.nextButton);
         registerButton.setOnClickListener(this);

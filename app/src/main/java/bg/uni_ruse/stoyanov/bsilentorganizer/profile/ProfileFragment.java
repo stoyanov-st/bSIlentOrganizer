@@ -107,6 +107,7 @@ public class ProfileFragment extends Fragment {
             });
         }
 
+        view.invalidate();
         TextView logoutTextView = view.findViewById(R.id.profile_logout);
         logoutTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +129,6 @@ public class ProfileFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mGoogleApiClient.disconnect();
-        setToolbarTitle((AppCompatActivity) getActivity(), user.getFullName());
         if (user.isGoogleProfile()) {
             ImageView googleImageView = getActivity().findViewById(R.id.g_profile_picture);
             googleImageView.setVisibility(View.VISIBLE);

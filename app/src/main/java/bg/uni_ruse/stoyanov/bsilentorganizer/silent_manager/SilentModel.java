@@ -8,11 +8,10 @@ import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
-import java.io.Serializable;
 import java.util.List;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
-import bg.uni_ruse.stoyanov.bsilentorganizer.user.DaoSession;
+import bg.uni_ruse.stoyanov.bsilentorganizer.event.DaoSession;
 
 
 /**

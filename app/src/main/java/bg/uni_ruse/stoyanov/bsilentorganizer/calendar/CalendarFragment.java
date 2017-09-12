@@ -2,20 +2,22 @@ package bg.uni_ruse.stoyanov.bsilentorganizer.calendar;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.facebook.login.widget.ProfilePictureView;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -29,21 +31,23 @@ import bg.uni_ruse.stoyanov.bsilentorganizer.event.Event;
 import bg.uni_ruse.stoyanov.bsilentorganizer.event.EventAdapter;
 import bg.uni_ruse.stoyanov.bsilentorganizer.event.EventDao;
 import bg.uni_ruse.stoyanov.bsilentorganizer.event.NewEventDialogFragment;
+import bg.uni_ruse.stoyanov.bsilentorganizer.user.User;
+import bg.uni_ruse.stoyanov.bsilentorganizer.user.UserDao;
 
 import static bg.uni_ruse.stoyanov.bsilentorganizer.event.EventList.getEventsByDate;
 import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.SocialId.getUserId;
+import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.ToolbarTitle.setToolbarTitle;
 
 
 public class CalendarFragment extends Fragment implements AdapterView.OnItemClickListener, CalendarView.OnDateChangeListener, View.OnClickListener {
 
-    private String TAG = CalendarFragment.class.getCanonicalName();
+    private static String TAG = CalendarFragment.class.getCanonicalName();
     private EventDao eventDao;
     private ArrayList<Event> eventList;
     private EventAdapter arrayAdapter;
     private TextView selectedDateTextView;
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
     private String currentDate;
-
     public CalendarFragment() {
         // Required empty public constructor
     }
@@ -60,6 +64,8 @@ public class CalendarFragment extends Fragment implements AdapterView.OnItemClic
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+
+        setToolbarTitle((AppCompatActivity) getActivity(), R.string.calendar);
 
         FloatingActionButton floatingActionButton = view.findViewById(R.id.addEvent);
         floatingActionButton.setOnClickListener(this);

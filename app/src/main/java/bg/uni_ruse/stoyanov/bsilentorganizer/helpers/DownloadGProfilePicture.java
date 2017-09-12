@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -12,7 +14,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import bg.uni_ruse.stoyanov.bsilentorganizer.HomeActivity;
 import bg.uni_ruse.stoyanov.bsilentorganizer.R;
+import bg.uni_ruse.stoyanov.bsilentorganizer.profile.ProfileFragment;
 
 /**
  * Created by stoyanovst on 9/5/17.
@@ -64,6 +68,7 @@ public class DownloadGProfilePicture extends AsyncTask<URL, Void, Bitmap> {
             ImageView googleImageView = mActivity.findViewById(R.id.g_profile_picture);
             googleImageView.setVisibility(View.VISIBLE);
             googleImageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 50, 55, false));
+
             ImageView googleNavImageView = mActivity.findViewById(R.id.g_profile_picture_nav);
             googleNavImageView.setVisibility(View.VISIBLE);
             googleNavImageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 90, 90, false));

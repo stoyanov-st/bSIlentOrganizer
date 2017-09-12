@@ -1,10 +1,7 @@
 package bg.uni_ruse.stoyanov.bsilentorganizer;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -17,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -112,7 +110,7 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         Fragment fragment = null;
-                        Class fragmentClass;
+                        Class fragmentClass = null;
 
                         switch (menuItem.getItemId()) {
                             case R.id.home_view:
@@ -138,6 +136,7 @@ public class HomeActivity extends AppCompatActivity {
                                 break;
                             case R.id.logout:
                                 logout();
+                                break;
                             default:
                                 fragmentClass = HomeFragment.class;
                         }
@@ -173,6 +172,21 @@ public class HomeActivity extends AppCompatActivity {
        if (user.isGoogleProfile()){
            try {
                new DownloadGProfilePicture(this).execute(new URL(user.getImageUrl()));
+               ImageView gProfilePic = toolbar.findViewById(R.id.g_profile_picture);
+               gProfilePic.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View view) {
+                       try {
+                           fragmentManager = getSupportFragmentManager();
+                           Fragment profileFragment = (Fragment) ProfileFragment.class.newInstance();
+                           fragmentManager.beginTransaction().replace(R.id.frameContent, profileFragment).commit();
+                           drawerList.setCheckedItem(R.id.profile_view);
+                       } catch (InstantiationException | IllegalAccessException e) {
+                           e.printStackTrace();
+                       }
+                   }
+               });
+
            } catch (MalformedURLException e) {
                e.printStackTrace();
            }
@@ -185,6 +199,19 @@ public class HomeActivity extends AppCompatActivity {
            ProfilePictureView profilePictureView = findViewById(R.id.fb_profile_picture);
            profilePictureView.setVisibility(View.VISIBLE);
            profilePictureView.setProfileId(userId);
+           profilePictureView.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   try {
+                       fragmentManager = getSupportFragmentManager();
+                       Fragment profileFragment = (Fragment) ProfileFragment.class.newInstance();
+                       fragmentManager.beginTransaction().replace(R.id.frameContent, profileFragment ).commit();
+                       drawerList.setCheckedItem(R.id.profile_view);
+                   } catch (InstantiationException | IllegalAccessException e) {
+                       e.printStackTrace();
+                   }
+               }
+           });
 
        }
     }
@@ -195,6 +222,7 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             LoginManager.getInstance().logOut();
         }
+        fragmentManager.popBackStackImmediate();
         goToMainActivity(this);
     }
 
@@ -248,12 +276,21 @@ public class HomeActivity extends AppCompatActivity {
         if (drawerLayout.isDrawerOpen(drawerList)) {
             drawerLayout.closeDrawers();
         }
+        else if (!(fragmentManager.findFragmentById(R.id.frameContent) instanceof HomeFragment)) {
+            try {
+                Fragment homeFragment = (Fragment) HomeFragment.class.newInstance();
+                fragmentManager.beginTransaction().replace(R.id.frameContent, homeFragment).commit();
+                drawerList.setCheckedItem(R.id.home_view);
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
         else if (!backPressed){
             Toast.makeText(getApplicationContext(), "Press Back button again to exit.", Toast.LENGTH_SHORT).show();
             backPressed = true;
         }
         else {
-            super.onBackPressed();
+            System.exit(0);
         }
     }
 }

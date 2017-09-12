@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.ToggleButton;
 
 import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.CheckCameraPermissions.checkPermission;
 import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.KeepScreenOn.setKeepScreenOnFlag;
+import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.ToolbarTitle.setToolbarTitle;
 
 import java.io.IOException;
 
@@ -44,6 +46,7 @@ public class FlashlightFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_flashlight, container, false);
+        setToolbarTitle((AppCompatActivity) getActivity(), R.string.flashlight);
 
         flashToggle = view.findViewById(R.id.flash_light_toggle);
         Switch backgroundModeSwitch = view.findViewById(R.id.use_in_bg_switch);

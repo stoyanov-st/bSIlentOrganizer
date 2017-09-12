@@ -22,7 +22,7 @@ android {
 }
 
 greendao {
-    schemaVersion 1000
+    targetGenDir 'src/main/java'
 }
 
 dependencies {
@@ -35,8 +35,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.0.2'
     compile 'com.android.support:design:26.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.android.gms:play-services-auth:11.2.0'
-    compile 'com.google.android.gms:play-services-vision:11.2.0'
+    compile 'com.google.android.gms:play-services-auth:11.2.2'
+    compile 'com.google.android.gms:play-services-vision:11.2.2'
     compile 'com.facebook.android:facebook-android-sdk:4.25.0'
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.google.code.gson:gson:2.8.1'

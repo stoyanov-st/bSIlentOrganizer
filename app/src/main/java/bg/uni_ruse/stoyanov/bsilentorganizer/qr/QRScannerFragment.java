@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ import bg.uni_ruse.stoyanov.bsilentorganizer.R;
 
 import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.CheckCameraPermissions.checkPermission;
 import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.KeepScreenOn.setKeepScreenOnFlag;
+import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.ToolbarTitle.setToolbarTitle;
 
 
 public class QRScannerFragment extends Fragment {
@@ -59,7 +61,7 @@ public class QRScannerFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_qrscanner, container, false);
-
+        setToolbarTitle((AppCompatActivity) getActivity(), R.string.qr_scanner);
 
         cameraPreview = view.findViewById(R.id.camera_preview);
         final TextView barcodeText = view.findViewById(R.id.barcode_text);

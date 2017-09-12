@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import bg.uni_ruse.stoyanov.bsilentorganizer.MainActivity;
 import bg.uni_ruse.stoyanov.bsilentorganizer.R;
 
 import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.SocialId.getUserId;
+import static bg.uni_ruse.stoyanov.bsilentorganizer.helpers.ToolbarTitle.setToolbarTitle;
 import static bg.uni_ruse.stoyanov.bsilentorganizer.silent_manager.SilentModelList.getSilentModels;
 
 public class SilentManagerFragment extends Fragment {
@@ -44,6 +46,7 @@ public class SilentManagerFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_silent_manager, container, false);
+        setToolbarTitle((AppCompatActivity) getActivity(), R.string.silent_mode_manager);
 
         FloatingActionButton newSilentModelButton = view.findViewById(R.id.new_silent_model_button);
         newSilentModelButton.setOnClickListener(new View.OnClickListener() {
