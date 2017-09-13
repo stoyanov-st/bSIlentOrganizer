@@ -53,5 +53,8 @@
     <string name="new_silent_mode">New Silent Mode</string>
     <string name="add_silent_mode">Add Silent Mode</string>
     <string name="delete">Delete</string>
+    <string name="_30_min_silence">30 min silence</string>
+    <string name="_1_hour_silence">1 hour silence</string>
+    <string name="today_events">Today\'s events</string>
 
 </resources>

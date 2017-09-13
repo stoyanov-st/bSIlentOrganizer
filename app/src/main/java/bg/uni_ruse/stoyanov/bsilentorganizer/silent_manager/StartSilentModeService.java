@@ -27,7 +27,7 @@ public class StartSilentModeService extends Service {
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         audioManager.setRingerMode(ringMode);
 
-        Toast.makeText(getApplicationContext(), "fuck it", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Silent Mode Start", Toast.LENGTH_SHORT).show();
         return START_STICKY;
     }
 

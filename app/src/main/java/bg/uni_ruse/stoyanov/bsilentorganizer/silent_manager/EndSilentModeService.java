@@ -23,7 +23,7 @@ public class EndSilentModeService extends Service {
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 
-        Toast.makeText(getApplicationContext(), "stop fucking it", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Silent Mode End", Toast.LENGTH_SHORT).show();
 
         return START_STICKY;
     }

@@ -222,7 +222,6 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             LoginManager.getInstance().logOut();
         }
-        fragmentManager.popBackStackImmediate();
         goToMainActivity(this);
     }
 
