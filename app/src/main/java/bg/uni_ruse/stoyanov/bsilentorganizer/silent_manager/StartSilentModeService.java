@@ -12,23 +12,36 @@ import android.widget.Toast;
  * Created by stoyanovst on 9/6/17.
  */
 
-public class StartSilentModeService extends Service {
+public class StartSilentModeService extends Service implements RingMode{
 
     static int SERVICE_ID = 419;
-    private boolean vibrationMode = false;
+    private boolean isVibration = false;
     private AudioManager audioManager;
-    private int ringMode;
 
     @Override
+    public boolean setRingerMode() {
+        
+        try {
+            isVibration = intent.getBooleanExtra("vibrationMode", false);
+            
+            audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            audioManager.setRingerMode(setRingMode(isVibration));
+            
+            return true;
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        vibrationMode = intent.getBooleanExtra("vibrationMode", false);
-        setRingMode(vibrationMode);
-
-        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        audioManager.setRingerMode(ringMode);
-
-        Toast.makeText(getApplicationContext(), "Silent Mode Start", Toast.LENGTH_SHORT).show();
-        return START_STICKY;
+        
+        if(setRingerMode) {
+            Toast.makeText(getApplicationContext(), "Silent Mode Start", Toast.LENGTH_SHORT).show();
+            return START_STICKY;
+        }
+        else return null;
     }
 
     @Nullable
@@ -37,11 +50,11 @@ public class StartSilentModeService extends Service {
         return null;
     }
 
-    private void setRingMode(Boolean vibrationMode) {
-        if (vibrationMode) {
-            ringMode = AudioManager.RINGER_MODE_VIBRATE;
+    private int setRingMode(Boolean isVibration) {
+        if (isVibration) {
+            return AudioManager.RINGER_MODE_VIBRATE;
         }
-        else ringMode = AudioManager.RINGER_MODE_SILENT;
+        else return AudioManager.RINGER_MODE_SILENT;
     }
 
 }
