@@ -23,7 +23,7 @@ import java.util.Map;
 import bg.uni_ruse.stoyanov.bsilentorganizer.user.User;
 import bg.uni_ruse.stoyanov.bsilentorganizer.user.UserDao;
 
-
+//TODO: Refactor register API.
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
 
     private String email = "";
@@ -75,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         final String username = usernameInput.getText().toString().trim();
         final String password = passInput.getText().toString().trim();
         final String passwordConfirm = passConfirmInput.getText().toString().trim();
-
+//TODO: Export to validator class.
         String usernamePattern = "[A-Za-z0-9]{3,12}";
         if (username.matches(usernamePattern)){
             String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
