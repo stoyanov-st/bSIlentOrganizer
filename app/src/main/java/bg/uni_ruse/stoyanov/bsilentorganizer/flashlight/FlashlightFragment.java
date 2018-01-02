@@ -21,7 +21,7 @@ import java.io.IOException;
 
 import bg.uni_ruse.stoyanov.bsilentorganizer.R;
 
-
+//TODO: Implement new camera methods.
 @SuppressWarnings("deprecation")
 public class FlashlightFragment extends Fragment {
 
