@@ -48,7 +48,7 @@ public class SilentModelAdapter extends ArrayAdapter<SilentModel> implements Com
                             parent,
                             false);
         }
-
+// TODO: Export to helper class
         String timeStamp = silentModel.getStartHours()
                 + ":"
                 + (silentModel.getStartMinutes() < 10 ? "0" + silentModel.getStartMinutes() : silentModel.getStartMinutes() )
