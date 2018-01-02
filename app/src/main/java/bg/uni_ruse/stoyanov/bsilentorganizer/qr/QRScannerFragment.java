@@ -120,7 +120,7 @@ public class QRScannerFragment extends Fragment {
                         @Override
                         public void run() {
                             barcodeText.setText(barcodes.valueAt(0).displayValue);
-                            Toast.makeToast(getApplicationContext(), "QR found!", Toast.LENGTH_SHORT).show();
+                            Toast.makeToast(getContext(), "QR found!", Toast.LENGTH_SHORT).show();
                             Vibrator vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
                             vibrator.vibrate(500);
                         }
