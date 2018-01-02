@@ -44,7 +44,7 @@ import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.logging.Logger;
 
-
+//TODO: Refactor and export methods.
 public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener{
