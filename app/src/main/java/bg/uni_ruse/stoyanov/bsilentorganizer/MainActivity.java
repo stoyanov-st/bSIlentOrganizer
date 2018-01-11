@@ -45,6 +45,9 @@ import java.util.concurrent.Callable;
 import java.util.logging.Logger;
 
 //TODO: Refactor and export methods.
+//TODO: Export DB connection.
+//TODO: Export social media connections.
+
 public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener{
