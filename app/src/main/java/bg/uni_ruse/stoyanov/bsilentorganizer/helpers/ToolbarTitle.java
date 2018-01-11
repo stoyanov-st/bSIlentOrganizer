@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 public class ToolbarTitle {
 
-    public static void setToolbarTitle(AppCompatActivity activity, Object titleResource) {
+    public static void setToolbarTitle(AppCompatActivity activity, T titleResource) {
         if (activity.getSupportActionBar() != null) {
             activity.getSupportActionBar().setTitle(titleResource);
         }
